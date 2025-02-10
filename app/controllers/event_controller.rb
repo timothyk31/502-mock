@@ -1,8 +1,12 @@
 class EventsController < MemberController
-  before_action :restrict_non_admins, except: [:show]
+  before_action :restrict_non_admins, except: %i[show future_events]
 
   def show
     @event = Event.find(params[:id])
+  end
+
+  def future_events
+    @events = Event.where('date >= ?', Time.now).order(date: :asc)
   end
 
   def new

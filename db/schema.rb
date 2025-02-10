@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_10_180908) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_10_182938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_10_180908) do
     t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "attendance_code"
     t.index ["event_id"], name: "index_attendances_on_event_id"
     t.index ["member_id", "event_id"], name: "index_attendances_on_member_id_and_event_id", unique: true
     t.index ["member_id"], name: "index_attendances_on_member_id"
@@ -26,10 +29,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_10_180908) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
-    t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location"
+    t.datetime "start_time", null: false
+    t.datetime "end_time"
+    t.string "attendance_code"
   end
 
   create_table "members", force: :cascade do |t|

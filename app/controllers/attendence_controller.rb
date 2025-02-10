@@ -1,6 +1,6 @@
-class AttendancesController < ApplicationController
+class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
-  before_action :restrict_non_admins, except: %i[index show]
+  before_action :restrict_non_admins, except: %i[index show verify]
 
   def show
     # if the user is not an admin, they can only see their own attendance
@@ -41,7 +41,36 @@ class AttendancesController < ApplicationController
     redirect_to attendances_url, notice: 'Attendance was successfully destroyed.'
   end
 
+  def verify
+    event = find_event
+    if valid_attendance_code?(event)
+      create_attendance(event)
+    else
+      redirect_to root_path, alert: 'Invalid or missing attendance code or event has ended.'
+    end
+  end
+
   private
+
+  def find_event
+    Event.find(params[:event_id])
+  end
+
+  def valid_attendance_code?(event)
+    event.attendance_code.present? &&
+      event.attendance_code == params[:attendance_code] &&
+      Time.now >= event.start_time &&
+      (event.end_time.nil? || Time.now <= event.end_time)
+  end
+
+  def create_attendance(event)
+    @attendance = Attendance.new(member: current_member, event: event)
+    if @attendance.save
+      redirect_to @attendance, notice: 'Attendance was successfully created.'
+    else
+      redirect_to root_path, alert: 'Failed to create attendance.'
+    end
+  end
 
   def set_attendance
     @attendance = Attendance.find(params[:id])
