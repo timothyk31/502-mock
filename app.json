@@ -1,0 +1,12 @@
+{
+    "name": "clear-app",
+    "description": "A clear app configured with Heroku and PostgreSQL",
+    "scripts": {
+        "postdeploy": "bundle exec rake db:migrate"
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql:essential-0"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+<li>
+  <%= render partial: 'events/event', locals: { event: event } %>
+  <!-- If member admin, show cRUD -->
+  <% if @member.role >= 5 %>
+    <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary' %>
+    <%= button_to 'Delete', event_path(event), method: :delete, form:{ data: { turbo_confirm: 'Are you sure?' }} , class: "btn btn-xs btn-danger"%>
+  <% end %>
+</li>

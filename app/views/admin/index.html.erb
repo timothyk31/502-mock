@@ -1,0 +1,11 @@
+<h1>All Members</h1>
+
+<ul>
+    <% @members.each do |member| %>
+        <%= render partial: 'member', locals: { member: member } %>
+    <% end %>
+</ul>
+
+<h1>All Events</h1>
+
+<%= render partial: 'shared/events_list' %>
