@@ -1,0 +1,7 @@
+<h1>All Members</h1>
+
+<ul>
+    <% @members.each do |member| %>
+        <%= render partial: 'member', locals: { member: member } %>
+    <% end %>
+</ul>
