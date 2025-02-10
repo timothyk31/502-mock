@@ -1,4 +1,4 @@
-class Members::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class Member::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     member = Member.from_google(**from_google_params)
     if member.present?
