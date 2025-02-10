@@ -4,3 +4,5 @@
 <% if current_member.role >= 5 %>
     <%= link_to 'Admin Dashboard', admin_path, class: 'btn btn-primary' %>
 <% end %>
+
+<%= link_to 'Logout', destroy_member_session_path, method: :delete, class: 'btn btn-primary' %>
