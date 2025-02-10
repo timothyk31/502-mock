@@ -1,2 +1,6 @@
 <h1>Welcome, Member!</h1>
 <p>We are glad to have you here.</p>
+
+<% if current_member.role == 5 %>
+    <%= link_to 'Admin Dashboard', admin_path, class: 'btn btn-primary' %>
+<% end %>

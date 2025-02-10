@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   resources :member, only: %i[index show]
   resources :admin, only: :index
 
+  get 'admin', to: 'admin#index'
+
   root to: 'member#index'
 end
