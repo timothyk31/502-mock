@@ -12,11 +12,7 @@ Rails.application.routes.draw do
 
   resources :members, only: %i[index show edit update destroy]
   resources :admins, only: :index
-  resources :events do
-    collection do
-      get :future_events
-    end
-  end
+  resources :events
   resources :attendances do
     collection do
       post :verify

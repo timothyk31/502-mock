@@ -46,7 +46,7 @@ class AttendancesController < MemberController
     if valid_attendance_code?(event)
       create_attendance(event)
     else
-      redirect_to root_path, alert: 'Invalid or missing attendance code or event has ended.'
+      redirect_to request.referer, alert: 'Invalid or missing attendance code or event has ended.'
     end
   end
 
@@ -66,9 +66,9 @@ class AttendancesController < MemberController
   def create_attendance(event)
     @attendance = Attendance.new(member: current_member, event: event)
     if @attendance.save
-      redirect_to @attendance, notice: 'Attendance was successfully created.'
+      redirect_to request.referer, notice: 'Attendance was successfully created.'
     else
-      redirect_to root_path, alert: 'Failed to create attendance.'
+      redirect_to request.referer, alert: 'Failed to create attendance.'
     end
   end
 

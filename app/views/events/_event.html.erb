@@ -1,0 +1,7 @@
+<h3><%= event.name %></h3>
+<p>Start Time: <%= event.start_time %></p>
+<p>End Time: <%= event.end_time %></p>
+<p>Location: <%= event.location %></p>
+<% if current_member.role >= 5 %>
+  <p>Attendance Code: <%= event.attendance_code %></p>
+<% end %>

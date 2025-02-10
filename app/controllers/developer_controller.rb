@@ -1,4 +1,4 @@
-class DeveloperController < MemberController
+class DeveloperController < ApplicationController
   before_action :authenticate_dev!
 
   def index

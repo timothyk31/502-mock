@@ -1,0 +1,5 @@
+<%= render partial: 'event', locals: { event: @event } %>
+
+<%= link_to 'Edit', edit_event_path(@event), class: 'btn btn-primary' %>
+<%= link_to 'Back', events_path, class: 'btn btn-secondary' %>
+<%= button_to 'Delete', event_path, method: :delete, form:{ data: { turbo_confirm: 'Are you sure?' }} , class: "btn btn-xs btn-primary"%>

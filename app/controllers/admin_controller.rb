@@ -2,8 +2,8 @@ class AdminController < MemberController
   before_action :authenticate_admin!
 
   def index
+    init_member_shared
     @members = Member.all
-    @current_user = current_member
   end
 
   private

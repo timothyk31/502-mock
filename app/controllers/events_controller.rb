@@ -1,12 +1,8 @@
 class EventsController < MemberController
-  before_action :restrict_non_admins, except: %i[show future_events]
+  before_action :restrict_non_admins, except: %i[show]
 
   def show
     @event = Event.find(params[:id])
-  end
-
-  def future_events
-    @events = Event.where('date >= ?', Time.now).order(date: :asc)
   end
 
   def new
@@ -15,10 +11,13 @@ class EventsController < MemberController
 
   def create
     @event = Event.new(event_params)
+    # Generate random 6 digit include letters and numbers for attendance code
+    @event.attendance_code = SecureRandom.alphanumeric(6)
+
     if @event.save
       redirect_to @event
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -35,10 +34,19 @@ class EventsController < MemberController
     end
   end
 
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy
+
+    redirect_to admin_path
+  end
+
   private
 
   def event_params
-    params.require(:event).permit(:name, :date, :location)
+    permitted_params = %i[name start_time end_time location]
+    permitted_params << :attendance_code if current_member.role >= 5
+    params.require(:event).permit(permitted_params)
   end
 
   def restrict_non_admins
