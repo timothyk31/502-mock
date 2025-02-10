@@ -1,0 +1,28 @@
+<!-- filepath: /directory/clear-app/app/views/developer/index.html.erb -->
+<h1>Edit Member Roles</h1>
+
+<%= form_with url: update_roles_developer_index_path, method: :patch do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+        <tr>
+          <td><%= member.email %></td>
+          <td><%= member.first_name %></td>
+          <td><%= member.last_name %></td>
+          <td>
+            <%= number_field_tag "members[#{member.id}]", member.role, min: 0, max: 5 %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= submit_tag 'Update Roles', class: 'btn btn-primary' %>
+<% end %>

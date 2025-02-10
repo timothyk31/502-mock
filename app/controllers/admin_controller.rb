@@ -9,6 +9,6 @@ class AdminController < MemberController
   private
 
   def authenticate_admin!
-    redirect_to root_path, alert: 'Access denied.' unless current_member.role == 5
+    redirect_to root_path, alert: 'Access denied.' unless current_member.role >= 5
   end
 end

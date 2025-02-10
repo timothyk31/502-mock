@@ -13,6 +13,12 @@ Rails.application.routes.draw do
   resources :member, only: %i[index show]
   resources :admin, only: :index
 
+  resources :developer, only: %i[index] do
+    collection do
+      patch :update_roles
+    end
+  end
+
   get 'admin', to: 'admin#index'
 
   root to: 'member#index'

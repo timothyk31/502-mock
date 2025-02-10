@@ -20,7 +20,7 @@ class Member::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    if resource_or_scope.is_a?(Member) && resource_or_scope.role == 5
+    if resource_or_scope.is_a?(Member) && resource_or_scope.role >= 5
       stored_location_for(resource_or_scope) || admin_path
     else
       stored_location_for(resource_or_scope) || root_path
