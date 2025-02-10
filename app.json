@@ -4,12 +4,6 @@
     "scripts": {
         "postdeploy": "bundle exec rake db:migrate"
     },
-    "env": {
-        "DATABASE_URL": {
-            "description": "The URL for the PostgreSQL database",
-            "required": true
-        }
-    },
     "addons": [
         {
             "plan": "heroku-postgresql:essential-0"
