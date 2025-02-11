@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       post :verify
     end
   end
+  resources :speakers
 
   resources :developer, only: %i[index] do
     collection do

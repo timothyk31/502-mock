@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+if Rails.env.development?
+    speakers = Speaker.create([
+        { name: "John Doe", details: "Expert in Ruby on Rails", email: "john.doe@example.com" },
+        { name: "Jane Smith", details: "JavaScript enthusiast", email: "jane.smith@example.com" },
+        { name: "Alice Johnson", details: "Specialist in Machine Learning", email: "alice.johnson@example.com" }
+    ])
+end

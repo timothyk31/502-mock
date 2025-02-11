@@ -1,0 +1,7 @@
+<h1>Previous Guest Speakers</h1>
+
+<ul>
+    <% @speakers.each do |speaker| %>
+        <%= render partial: 'speaker', locals: { speaker: speaker } %>
+    <% end %>
+</ul>
