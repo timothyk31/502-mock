@@ -5,6 +5,10 @@
     <%= link_to 'Admin Dashboard', admin_path, class: 'btn btn-primary' %>
 <% end %>
 
+<% if current_member.role >= 1 %>
+    <%= link_to 'Guest Speakers', speakers_path, class: 'btn btn-primary' %>
+<% end %>
+
 <%= render partial: 'shared/events_list' %>
 
 <%= link_to 'Logout', destroy_member_session_path, method: :delete, class: 'btn btn-primary' %>
