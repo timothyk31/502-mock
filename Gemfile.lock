@@ -145,11 +145,11 @@ GEM
     matrix (0.4.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.8)
     minitest (5.25.4)
     msgpack (1.8.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    mutex_m (0.3.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.5)
@@ -162,8 +162,9 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.2)
-      mini_portile2 (~> 2.8.2)
+    nokogiri (1.18.2-aarch64-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.2-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -298,6 +299,11 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.2)
+    tailwindcss-rails (4.0.0)
+      railties (>= 7.0.0)
+      tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.0.6-aarch64-linux-musl)
+    tailwindcss-ruby (4.0.6-x86_64-linux)
     thor (1.3.2)
     timeout (0.4.3)
     turbo-rails (2.0.11)
@@ -340,6 +346,7 @@ DEPENDENCIES
   dotenv-rails
   importmap-rails
   jbuilder
+  mutex_m
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
@@ -351,12 +358,14 @@ DEPENDENCIES
   selenium-webdriver
   sprockets-rails
   stimulus-rails
+  tailwindcss-rails (~> 4.0)
+  tailwindcss-ruby (~> 4.0)
   turbo-rails
   tzinfo-data
   web-console
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.4.1p0
 
 BUNDLED WITH
    2.3.14

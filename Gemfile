@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.4.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.8', '>= 7.0.8.7'
@@ -82,3 +82,9 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
+
+gem 'tailwindcss-rails', '~> 4.0'
+
+gem 'mutex_m'
+
+gem "tailwindcss-ruby", "~> 4.0"

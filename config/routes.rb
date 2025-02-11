@@ -6,10 +6,14 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  devise_for :members, controllers: { omniauth_callbacks: 'member/omniauth_callbacks' }
+  devise_for :members, controllers: { omniauth_callbacks: 'omniauth_callbacks', sessions: 'sessions' }
+  # devise_scope :member do
+  #   get 'member/sign_in', to: 'member/sessions#new', as: :new_member_session
+  #   get 'member/sign_out', to: 'member/sessions#destroy', as: :destroy_member_session
+  # end
   devise_scope :member do
-    get 'member/sign_in', to: 'member/sessions#new', as: :new_member_session
-    get 'member/sign_out', to: 'member/sessions#destroy', as: :destroy_member_session
+    get 'member/sign_in', to: 'sessions#new', as: :new_member_session
+    get 'member/sign_out', to: 'sessions#destroy', as: :destroy_member_session
   end
 
   resources :members, only: %i[index show edit update destroy]

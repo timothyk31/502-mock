@@ -22,6 +22,12 @@ test:
   username: <%= ENV.fetch("POSTGRES_USER") { ENV.fetch("DATABASE_USER") { 'test_user' } } %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD") { ENV.fetch("DATABASE_PASSWORD") { 'your_password' } } %>
 
+# production:
+#   <<: *default
+#   url: <%= ENV.fetch("DATABASE_URL") { 'production_host' } %>
+
 production:
   <<: *default
-  url: <%= ENV.fetch("DATABASE_URL") { 'production_host' } %>
+  database: <%= ENV.fetch("PG_DEVELOPMENT_DB") { 'development_db' } %>
+  username: <%= ENV.fetch("DATABASE_USER") { 'your_username' } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { 'your_password' } %>
