@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Speaker, type: :model do
@@ -36,6 +38,4 @@ RSpec.describe Speaker, type: :model do
     speaker = Speaker.new(name: 'John Doe', details: 'Tech Enthusiast and Speaker', email: 'john.doe@example.com')
     expect(speaker).to be_valid
   end
-
-
 end
