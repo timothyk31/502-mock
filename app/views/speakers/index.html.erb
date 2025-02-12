@@ -2,6 +2,15 @@
 
 <ul>
     <% @speakers.each do |speaker| %>
-        <%= render partial: 'speaker', locals: { speaker: speaker } %>
+        # Repeated code for the info and video of each speaker
+        <h1><%= speaker.name %></h1>
+        <li><%= speaker.email %></li>
+        <li><%= speaker.details %></li>
+        <iframe width="400" height="200"
+            src=
+            "https://www.youtube.com/embed/ZziplWM5S2Q?modestbranding=1&controls=0&amp;" 
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
     <% end %>
 </ul>
