@@ -16,9 +16,21 @@ Rails.application.routes.draw do
     get 'member/sign_out', to: 'sessions#destroy', as: :destroy_member_session
   end
 
-  resources :members, only: %i[index show edit update destroy]
+  resources :members, only: %i[index show edit update destroy] do
+    collection do
+      get 'search', to: 'member#search'
+      get 'attendance_chart', to: 'member#attendance_chart'
+      get 'attendance_line', to: 'member#attendance_line'
+    end
+  end
   resources :admins, only: :index
-  resources :events
+  resources :events do
+    collection do
+      get 'search', to: 'events#search'
+      get 'attendance_chart', to: 'events#attendance_chart'
+      get 'popular', to: 'events#popular_events'
+    end
+  end
   resources :attendances do
     collection do
       post :verify
