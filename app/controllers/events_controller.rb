@@ -43,6 +43,33 @@ class EventsController < MemberController
     redirect_to admin_path
   end
 
+  def attendance_chart
+    selected_event = Event.find(params[:event_id])
+    members = selected_event.attendances.joins(:member).select('members.first_name, members.last_name, members.email, members.uin')
+    render json: {
+      event: { name: selected_event.name, start_time: selected_event.start_time,
+               end_time: selected_event.end_time }, members: members
+    }
+  end
+
+  def search
+    events = Event.search(params[:query]).limit(10).select(:id, :name, :start_time, :end_time)
+    render json: events
+  end
+
+  def popular_events
+    start_time = params[:start_time].to_datetime
+    end_time = params[:end_time].to_datetime
+    events = Event.joins(:attendances)
+                  .where(start_time: start_time..end_time)
+                  .select('events.name, COUNT(attendances.id) AS attendance_count')
+                  .group('events.name')
+                  .order('attendance_count DESC')
+                  .limit(10)
+                  .map { |e| [e.name, e.attendance_count] }
+    render json: events
+  end
+
   private
 
   def event_params

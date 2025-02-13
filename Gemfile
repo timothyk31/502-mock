@@ -73,6 +73,7 @@ group :development do
   # gem "spring"
   gem 'brakeman', require: false
   gem 'dotenv-rails'
+  gem 'faker', require: false
   gem 'rspec-rails', '~> 5.0'
   gem 'rubocop', require: false
 end
@@ -87,4 +88,8 @@ gem 'tailwindcss-rails', '~> 4.0'
 
 gem 'mutex_m'
 
-gem "tailwindcss-ruby", "~> 4.0"
+gem 'tailwindcss-ruby', '~> 4.0'
+
+gem 'chartkick'
+
+gem 'select2-rails'
