@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
   before_action :restrict_non_admins, except: %i[index show verify]
@@ -25,8 +27,7 @@ class AttendancesController < MemberController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @attendance.update(attendance_params)

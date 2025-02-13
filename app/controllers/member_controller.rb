@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemberController < ApplicationController
   before_action :restrict_non_admins, except: [:index]
 
