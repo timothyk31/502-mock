@@ -1,0 +1,127 @@
+<%= selected_event = Event.find_by(id: params[:event_id]) %>
+
+<div class="mb-4">
+  <%= form_with url: request.path, method: :get, local: true, class: "flex space-x-4", id: "event-filter-form" do |f| %>
+    <div class="w-full">
+      <%= label_tag :event_id, "Select Event", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= select_tag :event_id, options_for_select([]), class: "js-event-search shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+  <% end %>
+</div>
+
+<div id="attendance-table-container" style="max-height: 50vh; overflow-y: auto;">
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr>
+          <th colspan="3" class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">
+            Total Members Attended: <span id="total-members-attended"><%= selected_event.present? ? selected_event.attendances.count : 0 %></span>
+          </th>
+        </tr>
+        <tr>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">Member Name</th>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">Email</th>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">UIN</th>
+        </tr>
+      </thead>
+      <tbody id="attendance-event-table-body">
+          <% if selected_event.present? %>
+          <% selected_event.attendances.joins(:member).each do |attendance| %>
+          <tr>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.member.first_name %> <%= attendance.member.last_name %></td>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.member.email %></td>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.member.uin %></td>
+          </tr>
+          <% end %>
+        <% else %>
+            <p class="text-gray-700">Please select an event to view the attendance details.</p>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+
+<%= javascript_tag do %>
+  function initAutocompleteEvents() {
+    const selectElement = document.querySelector('.js-event-search');
+
+    const initSelect2 = () => {
+      $(selectElement).select2({
+        placeholder: 'Search for an event',
+        ajax: {
+          url: '<%= search_events_path %>',
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              query: params.term
+            };
+          },
+          processResults: function (data, params) {
+            params.page = params.page || 1;
+
+            return {
+              results: data.map(function(event) {
+                return { id: event.id, text: event.name };
+              }),
+              pagination: {
+                more: (params.page * 10) < data.total_count
+              }
+            };
+          },
+          cache: true
+        },
+        minimumInputLength: 1
+      });
+
+      $(selectElement).on('change', function() {
+        const eventId = $(this).val();
+        if (eventId) {
+          $.ajax({
+            url: '<%= attendance_chart_events_path %>',
+            method: 'GET',
+            data: { event_id: eventId },
+            success: function(response) {
+              console.log(response);
+              const tableBody = document.getElementById('attendance-event-table-body');
+              const totalMembersAttended = document.getElementById('total-members-attended');
+              tableBody.innerHTML = '';
+              totalMembersAttended.textContent = response.members.length;
+              response.members.forEach(function(member) {
+                const tr = document.createElement('tr');
+                const tdMemberName = document.createElement('td');
+                tdMemberName.className = 'py-2 px-4 border-b border-gray-200';
+                tdMemberName.textContent = `${member.first_name} ${member.last_name}`;
+                const tdEmail = document.createElement('td');
+                tdEmail.className = 'py-2 px-4 border-b border-gray-200';
+                tdEmail.textContent = member.email;
+                const tdUIN = document.createElement('td');
+                tdUIN.className = 'py-2 px-4 border-b border-gray-200';
+                tdUIN.textContent = member.uin;
+                tr.appendChild(tdMemberName);
+                tr.appendChild(tdEmail);
+                tr.appendChild(tdUIN);
+                tableBody.appendChild(tr);
+              });
+            }
+          });
+        }
+      });
+    };
+
+    if (typeof Select2 !== 'undefined') {
+      initSelect2();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js';
+      script.onload = initSelect2;
+      document.head.appendChild(script);
+    }
+  }
+
+  document.addEventListener("turbo:load", function() {
+    initAutocompleteEvents();
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    initAutocompleteEvents();
+  });
+<% end %>

@@ -1,11 +1,21 @@
-<h1>All Members</h1>
+<div class="flex">
+  <div class="w-2/3 pr-4">
+    <h1>All Events</h1>
+    <%= render partial: 'shared/attendance_user_filter' %>
+    <%= render partial: 'shared/attendance_chart_events' %>
+    <%= render partial: 'shared/attendance_line_chart' %>
+    <%= render partial: 'shared/popular_events_chart' %>
+    
+    <%= render partial: 'shared/events_list' %>
 
-<ul>
-    <% @members.each do |member| %>
+  </div>
+
+  <div class="w-1/3 pl-4">
+    <h1>All Members</h1>
+    <ul>
+      <% @members.each do |member| %>
         <%= render partial: 'member', locals: { member: member } %>
-    <% end %>
-</ul>
-
-<h1>All Events</h1>
-
-<%= render partial: 'shared/events_list' %>
+      <% end %>
+    </ul>
+  </div>
+</div>
