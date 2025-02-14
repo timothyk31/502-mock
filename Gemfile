@@ -75,6 +75,7 @@ group :development do
   gem 'dotenv-rails'
   gem 'faker', require: false
   gem 'rspec-rails', '~> 5.0'
+  gem 'rubocop-rails'
   gem 'rubocop', require: false
 end
 
