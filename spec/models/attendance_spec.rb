@@ -49,4 +49,24 @@ RSpec.describe Attendance, type: :model do
       end
     end  
   end
+
+  describe 'behavior' do
+    let(:member) { Member.create(email: 'test@example.com', first_name: 'Test', last_name: 'User') }
+    let(:event) do 
+      Event.create(
+        name: 'Ruby Workshop',
+        start_time: Time.current,
+        end_time: Time.current + 2.hours,
+        location: 'Room 101',
+        attendance_code: 'CODE123'
+      )
+    end
+
+    # Test if creating an attendance properly establishes the many-to-many relationship
+    it 'creates a connection between member and event' do
+      attendance = Attendance.create(member: member, event: event)
+      expect(member.events).to include(event)
+      expect(event.members).to include(member)
+    end
+  end
 end
