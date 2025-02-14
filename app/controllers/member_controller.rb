@@ -10,7 +10,7 @@ class MemberController < ApplicationController
   def show
     @member = Member.find(params[:id])
   end
-
+  
   protected
 
   def init_member_shared
