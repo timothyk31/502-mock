@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+
 class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
   before_action :restrict_non_admins, except: %i[index show verify]
@@ -49,9 +50,22 @@ class AttendancesController < MemberController
     else
       redirect_to request.referer, alert: 'Invalid or missing attendance code or event has ended.'
     end
-  endz
+  end
+
+  def non_attendees
+    event = Event.find(params[:event_id])
+    @non_attendees = Member.non_attendees_for(event.id)
+
+    respond_to do |format|
+      format.csv do
+        send_data generate_csv(@non_attendees),
+                  filename: "non-attendees-event-#{event.id}-#{Date.today}.csv"
+      end
+    end
+  end
 
   private
+
 
   def find_event
     Event.find(params[:event_id])
