@@ -66,6 +66,25 @@ class AttendancesController < MemberController
 
   private
 
+  def generate_csv(members)
+    CSV.generate(headers: true) do |csv|
+      csv << ['ID', 'First Name', 'Last Name', 'Email', 'UIN', 'Class Year', 'Role', 'Phone Number', 'Address', 'Joined At']
+      members.each do |member|
+        csv << [
+          member.id,
+          member.first_name,
+          member.last_name,
+          member.email,
+          member.uin,
+          member.class_year,
+          member.role,
+          member.phone_number,
+          member.address,
+          member.created_at
+        ]
+      end
+    end
+  end
 
   def find_event
     Event.find(params[:event_id])
