@@ -49,7 +49,7 @@ class AttendancesController < MemberController
     else
       redirect_to request.referer, alert: 'Invalid or missing attendance code or event has ended.'
     end
-  end
+  endz
 
   private
 

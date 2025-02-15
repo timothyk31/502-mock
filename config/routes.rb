@@ -31,6 +31,10 @@ Rails.application.routes.draw do
       get 'popular', to: 'events#popular_events'
     end
   end
+
+  # Added for absent members
+  get 'events/:event_id/non_attendees', to: 'attendances#non_attendees', as: :event_non_attendees
+
   resources :attendances do
     collection do
       post :verify
@@ -47,4 +51,6 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
 
   root to: 'member#index'
+
+  
 end

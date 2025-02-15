@@ -98,3 +98,5 @@ gem 'select2-rails'
 
 gem 'drb'
 gem 'benchmark'
+
+gem 'csv'
