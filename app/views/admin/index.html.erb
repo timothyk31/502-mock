@@ -35,7 +35,10 @@
             <%= member.last_name %>
           </td>
             <td>
-            <%= select_tag "members[#{member.id}]", options_for_select([["Unpaid", 0], ["Paid", 1], ["Admin", 5]], member.role) %>
+              <% roles = [["Unpaid", 0], ["Paid", 1], ["Admin", 5]] %>
+              <% selected, others = roles.partition { |_, value| value == member.role } %>
+              <% ordered_roles = selected + others %>
+              <%= select_tag "members[#{member.id}]", options_for_select(ordered_roles, member.role) %>
             </td>
         </tr>
       <% end %>

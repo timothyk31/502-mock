@@ -23,7 +23,11 @@ Rails.application.routes.draw do
       get 'attendance_line', to: 'member#attendance_line'
     end
   end
-  resources :admins, only: :index
+  resources :admin, only: :index do
+    collection do
+      patch :update_roles
+    end
+  end
   resources :events do
     collection do
       get 'search', to: 'events#search'
