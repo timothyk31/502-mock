@@ -21,4 +21,12 @@ class Event < ApplicationRecord
 
     errors.add(:end_time, 'must be after the start time')
   end
+
+  def self.search(query)
+    if query.present?
+      where('name ILIKE ?', "%#{query}%")
+    else
+      all
+    end
+  end
 end

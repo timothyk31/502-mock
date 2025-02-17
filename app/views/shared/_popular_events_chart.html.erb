@@ -1,0 +1,46 @@
+<!-- Will look for start_time and end_time -->
+
+<% start_time = params[:start_time].presence || 1.month.ago %>
+<% end_time = params[:end_time].presence || Time.now %>
+
+<div class="mb-4">
+  <%= form_with url: request.path, method: :get, local: true, class: "flex space-x-4", id: "popular-events-filter-form" do %>
+    <div>
+      <%= label_tag :start_time, "Start Time", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= date_field_tag :start_time, start_time.to_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+    <div>
+      <%= label_tag :end_time, "End Time", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= date_field_tag :end_time, end_time.to_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+    <div class="flex items-end">
+      <%= button_tag "Filter", type: "button", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", id: "popular-events-filter-button" %>
+    </div>
+  <% end %>
+</div>
+
+<div id="popular-events-chart">
+  <%= bar_chart popular_events_path(start_time: start_time, end_time: end_time),
+                 title: "10 Most Popular Events",
+                 xtitle: "Number of Attendees",
+                 ytitle: "Event",
+                 id: "popularEventsChart" %>
+</div>
+
+<%= javascript_tag do %>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("popular-events-filter-button").addEventListener("click", function() {
+      const form = document.getElementById("popular-events-filter-form");
+      const formData = new FormData(form);
+      const params = new URLSearchParams(formData).toString();
+
+      fetch('<%= popular_events_path %>?' + params)
+        .then(response => response.json())
+        .then(data => {
+          const chart = Chartkick.charts["popularEventsChart"];
+          console.log(data);
+          chart.updateData(data);
+        });
+    });
+  });
+<% end %>
