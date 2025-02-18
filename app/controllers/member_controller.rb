@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemberController < ApplicationController
   before_action :restrict_non_admins, except: [:index]
 
@@ -7,6 +9,32 @@ class MemberController < ApplicationController
 
   def show
     @member = Member.find(params[:id])
+  end
+
+  def search
+    members = Member.search(params[:query]).limit(10).select(:id, :first_name, :last_name, :email)
+    render json: members
+  end
+
+  def attendance_chart
+    selected_member = Member.find(params[:member_id])
+    attendance = Attendance.joins(:event)
+                           .where(member_id: selected_member.id)
+                           .order('events.start_time DESC')
+                           .select('events.name, events.start_time, events.end_time')
+    render json: attendance
+  end
+
+  def attendance_line
+    filter_start_time = params[:start_time].to_datetime
+    filter_end_time = params[:end_time].to_datetime
+    attendance = Event.joins(:attendances)
+                      .where(start_time: filter_start_time..filter_end_time)
+                      .select('events.name, COUNT(attendances.id) AS attendance_count')
+                      .group('events.name')
+                      .order('MIN(events.start_time)')
+                      .map { |e| [e.name, e.attendance_count] }
+    render json: attendance
   end
 
   protected

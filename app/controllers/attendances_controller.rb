@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+
 class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
   before_action :restrict_non_admins, except: %i[index show verify]
@@ -25,8 +28,7 @@ class AttendancesController < MemberController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @attendance.update(attendance_params)
@@ -50,7 +52,39 @@ class AttendancesController < MemberController
     end
   end
 
+  def non_attendees
+    event = Event.find(params[:event_id])
+    @non_attendees = Member.non_attendees_for(event.id)
+
+    respond_to do |format|
+      format.csv do
+        send_data generate_csv(@non_attendees),
+                  filename: "non-attendees-event-#{event.id}-#{Date.today}.csv"
+      end
+    end
+  end
+
   private
+
+  def generate_csv(members)
+    CSV.generate(headers: true) do |csv|
+      csv << ['ID', 'First Name', 'Last Name', 'Email', 'UIN', 'Class Year', 'Role', 'Phone Number', 'Address', 'Joined At']
+      members.each do |member|
+        csv << [
+          member.id,
+          member.first_name,
+          member.last_name,
+          member.email,
+          member.uin,
+          member.class_year,
+          member.role,
+          member.phone_number,
+          member.address,
+          member.created_at
+        ]
+      end
+    end
+  end
 
   def find_event
     Event.find(params[:event_id])

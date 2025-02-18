@@ -1,0 +1,128 @@
+<%= selected_member = Member.find_by(id: params[:member_id]) %>
+
+<div class="mb-4">
+  <%= form_with url: request.path, method: :get, local: true, class: "flex space-x-4", id: "member-filter-form" do |f| %>
+    <div class="w-full">
+      <%= label_tag :member_id, "Select Member", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= select_tag :member_id, options_for_select([]), class: "js-member-search shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+  <% end %>
+</div>
+
+<div id="attendance-table-container" style="max-height: 50vh; overflow-y: auto;">
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr>
+          <th colspan="3" class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">
+            Total Events Attended: <span id="total-events-attended"><%= selected_member.present? ? Attendance.where(member_id: selected_member.id).count : 0 %></span>
+          </th>
+        </tr>
+        <tr>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">Event</th>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">Start Time</th>
+          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-700 uppercase tracking-wider">End Time</th>
+        </tr>
+      </thead>
+      <tbody id="attendance-table-body">
+          <% if selected_member.present? %>
+
+        <% Attendance.joins(:event).where(member_id: selected_member.id).order('events.start_time DESC').select('events.name, events.start_time, events.end_time').each do |attendance| %>
+          <tr>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.name %></td>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.start_time %></td>
+            <td class="py-2 px-4 border-b border-gray-200"><%= attendance.end_time %></td>
+          </tr>
+        <% end %>
+        <% else %>
+            <p class="text-gray-700">Please select a member to view their attendance details.</p>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+
+<%= javascript_tag do %>
+  function initAutocomplete() {
+    const selectElement = document.querySelector('.js-member-search');
+
+    const initSelect2 = () => {
+      $(selectElement).select2({
+        placeholder: 'Search for a member',
+        ajax: {
+          url: '<%= search_members_path %>',
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              query: params.term
+            };
+          },
+          processResults: function (data, params) {
+            params.page = params.page || 1;
+
+            return {
+              results: data.map(function(member) {
+                return { id: member.id, text: member.first_name + ' ' + member.last_name };
+              }),
+              pagination: {
+                more: (params.page * 10) < data.total_count
+              }
+            };
+          },
+          cache: true
+        },
+        minimumInputLength: 1
+      });
+
+      $(selectElement).on('change', function() {
+        const memberId = $(this).val();
+        if (memberId) {
+          $.ajax({
+            url: '<%= attendance_chart_members_path %>',
+            method: 'GET',
+            data: { member_id: memberId },
+            success: function(response) {
+              console.log(response);
+              const tableBody = document.getElementById('attendance-table-body');
+              const totalEventsAttended = document.getElementById('total-events-attended');
+              tableBody.innerHTML = '';
+              totalEventsAttended.textContent = response.length;
+              response.forEach(function(row) {
+                const tr = document.createElement('tr');
+                const tdEvent = document.createElement('td');
+                tdEvent.className = 'py-2 px-4 border-b border-gray-200';
+                tdEvent.textContent = row.name;
+                const tdStartTime = document.createElement('td');
+                tdStartTime.className = 'py-2 px-4 border-b border-gray-200';
+                tdStartTime.textContent = row.start_time;
+                const tdEndTime = document.createElement('td');
+                tdEndTime.className = 'py-2 px-4 border-b border-gray-200';
+                tdEndTime.textContent = row.end_time;
+                tr.appendChild(tdEvent);
+                tr.appendChild(tdStartTime);
+                tr.appendChild(tdEndTime);
+                tableBody.appendChild(tr);
+              });
+            }
+          });
+        }
+      });
+    };
+
+    if (typeof Select2 !== 'undefined') {
+      initSelect2();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js';
+      script.onload = initSelect2;
+      document.head.appendChild(script);
+    }
+  }
+
+  document.addEventListener("turbo:load", function() {
+    initAutocomplete();
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    initAutocomplete();
+  });
+<% end %>

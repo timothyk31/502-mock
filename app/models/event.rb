@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Event < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_many :members, through: :attendances
@@ -18,5 +20,13 @@ class Event < ApplicationRecord
     return unless end_time < start_time
 
     errors.add(:end_time, 'must be after the start time')
+  end
+
+  def self.search(query)
+    if query.present?
+      where('name ILIKE ?', "%#{query}%")
+    else
+      all
+    end
   end
 end

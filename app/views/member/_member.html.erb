@@ -1,6 +1,26 @@
-<li>
-  <p>Email: <%= link_to member.email, member %></p>
-  <p>First Name: <%= member.first_name %></p>
-  <p>Last Name: <%= member.last_name %></p>
-  <p>Role: <%= member.role %></p>
+<li class="member-card shadow-lg rounded-lg p-4 mb-4 bg-white">
+  <div class="flex justify-between items-start">
+    <div>
+      <div class="text-lg font-bold">
+        <%= member.first_name %> <%= member.last_name %>
+      </div>
+      <div class="text-sm text-gray-600">
+        UIN: <%= member.uin %>
+      </div>
+    </div>
+  </div>
+  <div class="mt-2 text-right">
+    <p>Email: <%= link_to member.email, member %></p>
+    <p><%= member.role_name %></p>
+  </div>
 </li>
+
+<style>
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+    width: 300px;
+  }
+</style>

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.4.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.8', '>= 7.0.8.7'
@@ -71,7 +73,9 @@ group :development do
   # gem "spring"
   gem 'brakeman', require: false
   gem 'dotenv-rails'
+  gem 'faker', require: false
   gem 'rspec-rails', '~> 5.0'
+  gem 'rubocop-rails'
   gem 'rubocop', require: false
 end
 
@@ -79,4 +83,20 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 5.0'
 end
+
+gem 'tailwindcss-rails', '~> 4.0'
+
+gem 'mutex_m'
+
+gem 'tailwindcss-ruby', '~> 4.0'
+
+gem 'chartkick'
+
+gem 'select2-rails'
+
+gem 'drb'
+gem 'benchmark'
+
+gem 'csv'

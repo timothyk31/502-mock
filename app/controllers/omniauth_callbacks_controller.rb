@@ -1,4 +1,6 @@
-class Member::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+# frozen_string_literal: true
+
+class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     member = Member.from_google(**from_google_params)
     if member.present?
@@ -9,7 +11,7 @@ class Member::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       flash[:alert] = t 'devise.omniauth_callbacks.failure', kind: 'Google',
                                                              reason: "#{auth.info.email} is not authorized."
-      redirect_to new_member_session_path
+      redirect_to user_new_member_session_path
     end
   end
 

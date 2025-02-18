@@ -1,0 +1,4 @@
+<h2 class="text-2xl font-bold mb-4">You're Logged out! Log in to the Dashboard!!</h2>
+<%= button_to member_google_oauth2_omniauth_authorize_path, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded", method: :post, data: { turbo: "false" } do %>
+  <i class="fab fa-google mr-2"></i><span>Google</span>
+<% end %>
