@@ -1,5 +1,7 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
-  <% @members.each do |member| %>
-    <%= render 'member/member', member: member %>
-  <% end %>
-</div>
+<%= form_with url: list_members_path, method: :get, data: { turbo_frame: "members-grid" } do |form| %>
+  <div class="mb-4">
+    <%= form.text_field :query, placeholder: "Search by name or UIN...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+  </div>
+<% end %>
+
+<%= render partial: 'member/member_grid', locals: { members: @members } %>

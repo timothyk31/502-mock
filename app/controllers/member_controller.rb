@@ -9,6 +9,15 @@ class MemberController < ApplicationController
 
   def list
     @members = Member.all
+    @members = @members.where('first_name ILIKE ? OR last_name ILIKE ? OR uin::text ILIKE ?', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%") if params[:query].present?
+    @members = @members.page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace('members-grid', partial: 'member/member_grid', locals: { members: @members })
+      end
+    end
   end
 
   def show

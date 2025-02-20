@@ -16,6 +16,8 @@ class Member < ApplicationRecord
   #   administrator: 5
   # }
 
+  paginates_per 20
+
   def admin?
     role >= 5
   end

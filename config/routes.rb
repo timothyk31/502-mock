@@ -22,6 +22,7 @@ Rails.application.routes.draw do
                get 'attendance_chart', to: 'member#attendance_chart'
                get 'attendance_line', to: 'member#attendance_line'
                get 'list', to: 'member#list'
+               get 'turbo_stream_query', to: 'member#turbo_stream_query'
           end
      end
      resources :admin, only: :index do

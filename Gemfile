@@ -102,3 +102,4 @@ gem 'benchmark'
 gem 'csv'
 
 gem 'rails_icons', '~> 1.1'
+gem 'kaminari'
