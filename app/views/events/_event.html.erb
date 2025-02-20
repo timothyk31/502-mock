@@ -1,5 +1,21 @@
 <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-  <h3 class="text-xl font-bold mb-4"><%= event.name %></h3>
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold"><%= event.name %></h3>
+    <% if current_member.admin? %>
+      <div class="flex space-x-2">
+        <!-- Edit Icon -->
+        <%= link_to edit_event_path(event), class: "text-blue-500 hover:text-blue-700" do %>
+          <%= icon "edit", class: "fill-current" %>
+        <% end %>
+        <!-- Delete Icon -->
+        <%= button_to event_path(event), method: :delete, form:{ data: { turbo_confirm: 'Are you sure?' }} , class: "btn btn-xs btn-primary text-red-500 hover:text-red-700" do %>
+          <%= icon "trash", class: "fill-current" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Event Time -->
   <div class="flex space-x-4 mb-4">
     <div class="bg-gray-100 p-2 rounded text-center">
       <p class="text-gray-700 text-sm"><%= event.start_time.strftime("%B %d, %Y %I:%M %p") %></p>
@@ -9,8 +25,43 @@
       <p class="text-gray-700 text-sm"><%= event.end_time.strftime("%B %d, %Y %I:%M %p") %></p>
     </div>
   </div>
+
+  <!-- Event Location -->
   <p class="text-gray-700 mb-4">Location: <%= event.location %></p>
-  <% if current_member.role >= 5 %>
+
+  <!-- Attendance Code (for admins) -->
+  <% if current_member.admin? %>
     <p class="text-gray-700 mb-1">Attendance Code: <%= event.attendance_code %></p>
   <% end %>
-</div>
+
+  <!-- Attendance Verification Form -->
+  <% if event.start_time < Time.current && event.end_time > Time.current %>
+    <% unless Attendance.exists?(member: current_member, event: event) %>
+      <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 rounded-lg">
+        <%= form_with url: verify_attendances_path, method: :post, local: true do |f| %>
+          <div class="mb-4">
+            <%= f.label :attendance_code, 'Attendance Code', class: 'block text-sm font-medium text-gray-700' %>
+            <%= f.text_field :attendance_code, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm' %>
+          </div>
+          <%= f.hidden_field :event_id, value: event.id %>
+          <div class="flex justify-end">
+            <%= f.submit 'Verify', class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-lg">
+        <p>Attendance Verified</p>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if event.start_time < Time.current %>
+    <!-- Export Non-Attendees Link -->
+    <div class="flex justify-end">
+      <%= link_to event_non_attendees_path(event_id: event.id, format: :csv), class: 'flex items-center space-x-2 px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg shadow-md w-1/2', data: { turbo: false } do %>
+        <span>Export Absentees</span>
+      <% end %>
+    </div>
+  <% end %>
+</div> 

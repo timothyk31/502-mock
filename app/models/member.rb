@@ -6,8 +6,6 @@ class Member < ApplicationRecord
   has_many :attendances
   has_many :events, through: :attendances
 
-  
-
   # TODO: MIGRATE TO THIS LATER
   # enum role: {
   #   unapproved_member: 0,
@@ -17,6 +15,10 @@ class Member < ApplicationRecord
   #   unknown4: 4,
   #   administrator: 5
   # }
+
+  def admin?
+    role >= 5
+  end
 
   def self.non_attendees_for(event_id)
     where.not(id: Attendance.for_event(event_id).pluck(:member_id))

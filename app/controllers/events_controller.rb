@@ -3,6 +3,11 @@
 class EventsController < MemberController
   before_action :restrict_non_admins, except: %i[show]
 
+  def index
+    super.index
+    @events = Event.all
+  end
+
   def show
     @event = Event.find(params[:id])
   end
