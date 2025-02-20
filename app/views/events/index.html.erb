@@ -1,8 +1,17 @@
 <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-  <h1 class="text-2xl font-bold mb-4">Events</h1>
+
+<div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Events</h1>
+    <!-- New Event button (conditionally shown) -->
+    <% if current_member.role >= 5 %>
+        <%= link_to 'New Event', new_event_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    <% end %>
+</div>
+
 
   <!-- Grid container for desktop view while using list for mobile devices (responsive design) -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    
     <!-- Left column: Current Events -->
     <div class="lg:col-span-1">
       <h2 class="text-xl font-semibold mb-4">Events In Progress</h2>
@@ -30,11 +39,4 @@
       </ul>
     </div>
   </div>
-
-  <!-- New Event button (conditionally shown) -->
-  <% if current_member.role >= 5 %>
-    <div class="mt-6">
-      <%= link_to 'New Event', new_event_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block' %>
-    </div>
-  <% end %>
 </div>

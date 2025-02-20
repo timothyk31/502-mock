@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < MemberController
-  before_action :restrict_non_admins, except: %i[show]
+  before_action :restrict_non_admins, except: %i[show index]
 
   def index
     super.index
