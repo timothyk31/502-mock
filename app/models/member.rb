@@ -42,18 +42,32 @@ class Member < ApplicationRecord
   def role_name
     return 'Developer' if ENV['DEV_EMAIL'] == email
 
+    # case role
+    # when 'unapproved_member'
+    #   'Unapproved Member'
+    # when 'member'
+    #   'Member'
+    # when 'unknown2'
+    #   'Unknown 2'
+    # when 'unknown3'
+    #   'Unknown 3'
+    # when 'unknown4'
+    #   'Unknown 4'
+    # when 'administrator'
+    #   'Administrator'
+    # end
     case role
-    when 'unapproved_member'
+    when 0
       'Unapproved Member'
-    when 'member'
+    when 1
       'Member'
-    when 'unknown2'
+    when 2
       'Unknown 2'
-    when 'unknown3'
+    when 3
       'Unknown 3'
-    when 'unknown4'
+    when 4
       'Unknown 4'
-    when 'administrator'
+    when 5
       'Administrator'
     end
   end

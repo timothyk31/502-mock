@@ -16,7 +16,7 @@ Rails.application.routes.draw do
           get 'member/sign_out', to: 'sessions#destroy', as: :destroy_member_session
      end
 
-     resources :members, only: %i[index show edit update destroy] do
+     resources :members, controller: 'member', only: %i[index show edit update destroy] do
           collection do
                get 'search', to: 'member#search'
                get 'attendance_chart', to: 'member#attendance_chart'
@@ -25,6 +25,9 @@ Rails.application.routes.draw do
                get 'turbo_stream_query', to: 'member#turbo_stream_query'
           end
      end
+
+     patch 'members/:id', to: 'member#update_roles'
+
      resources :admin, only: :index do
           collection do
                patch :update_roles

@@ -1,48 +1,13 @@
 <div class="flex">
-  <div class="w-2/3 pr-4">
+  <div class="w-1/2 pr-4">
     <h1>All Events</h1>
     <%= render partial: 'shared/attendance_user_filter' %>
     <%= render partial: 'shared/attendance_chart_events' %>
-    <%= render partial: 'shared/attendance_line_chart' %>
-    <%= render partial: 'shared/popular_events_chart' %>
     
   </div>
 
-  <div class="w-1/3 pl-4">
-    <h1>All Members</h1>
-<%= form_with url: update_roles_admin_index_path, method: :patch do %>
-  <table>
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Role</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @members.each do |member| %>
-        <tr>
-          <td>
-            <%= member.email %>
-          </td>
-          <td>
-            <%= member.first_name %>
-          </td>
-          <td>
-            <%= member.last_name %>
-          </td>
-            <td>
-              <% roles = [["Unpaid", 0], ["Paid", 1], ["Admin", 5]] %>
-              <% selected, others = roles.partition { |_, value| value == member.role } %>
-              <% ordered_roles = selected + others %>
-              <%= select_tag "members[#{member.id}]", options_for_select(ordered_roles, member.role) %>
-            </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= submit_tag 'Update Roles', class: 'btn btn-primary' %>
-<% end %>
+  <div class="w-1/2 pl-4">
+    <%= render partial: 'shared/attendance_line_chart' %>
+    <%= render partial: 'shared/popular_events_chart' %>
 </div>
 </div>

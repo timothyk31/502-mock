@@ -10,7 +10,7 @@ class MemberController < ApplicationController
   def list
     @members = Member.all
     @members = @members.where('first_name ILIKE ? OR last_name ILIKE ? OR uin::text ILIKE ?', "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%") if params[:query].present?
-    @members = @members.page(params[:page]).per(20)
+    @members = @members.order(:email).page(params[:page]).per(20)
 
     respond_to do |format|
       format.html
@@ -22,6 +22,16 @@ class MemberController < ApplicationController
 
   def show
     @member = Member.find(params[:id])
+  end
+
+  def update
+    @member = Member.find(params[:id])
+    if @member.update(member_params)
+      # return back
+      redirect_to request.referer, notice: 'Member updated successfully.'
+    else
+      redirect_to request.referer, alert: 'Member could not be updated.'
+    end
   end
 
   def search
@@ -66,5 +76,13 @@ class MemberController < ApplicationController
 
   def restrict_non_admins
     redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
+  end
+
+  def member_params
+    if current_member.role >= 5
+      params.require(:member).permit(:first_name, :last_name, :email, :role)
+    else
+      params.require(:member).permit(:first_name, :last_name, :email)
+    end
   end
 end

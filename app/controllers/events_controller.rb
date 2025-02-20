@@ -5,7 +5,6 @@ class EventsController < MemberController
 
   def index
     super.index
-    @events = Event.all
   end
 
   def show
@@ -18,8 +17,8 @@ class EventsController < MemberController
 
   def create
     @event = Event.new(event_params)
-    # Generate random 6 digit include letters and numbers for attendance code
-    @event.attendance_code = SecureRandom.alphanumeric(6)
+    # Generate random 6 digit attendance code
+    @event.attendance_code = SecureRandom.random_number(1_000_000) if @event.attendance_code.nil?
 
     if @event.save
       redirect_to @event
