@@ -7,6 +7,10 @@ class MemberController < ApplicationController
     init_member_shared
   end
 
+  def list
+    @members = Member.all
+  end
+
   def show
     @member = Member.find(params[:id])
   end

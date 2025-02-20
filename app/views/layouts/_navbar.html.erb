@@ -12,12 +12,15 @@
               <%= link_to "Dashboard", members_path, class: "text-white" %>
             <% end %>
           </li>
-          <li>
-            <%= link_to "Members", root_path, class: "text-white" %>
-          </li>
-          <li>
-            <%= link_to "Events", events_path, class: "text-white" %>
-          </li>
+          
+          <% if @member && @member.admin? %> 
+            <li>
+              <%= link_to "Members", list_members_path, class: "text-white" %>
+            </li>
+            <li>
+              <%= link_to "Events", events_path, class: "text-white" %>
+            </li>
+          <% end %>
           <li>
             <%= link_to 'Logout', destroy_member_session_path, method: :delete, class: 'btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>          </li>
       </ul>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
                get 'search', to: 'member#search'
                get 'attendance_chart', to: 'member#attendance_chart'
                get 'attendance_line', to: 'member#attendance_line'
+               get 'list', to: 'member#list'
           end
      end
      resources :admin, only: :index do
