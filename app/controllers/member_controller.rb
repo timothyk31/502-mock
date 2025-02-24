@@ -92,3 +92,4 @@ class MemberController < ApplicationController
     redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
   end
 end
+end
