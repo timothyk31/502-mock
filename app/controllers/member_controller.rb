@@ -11,6 +11,40 @@ class MemberController < ApplicationController
     @member = Member.find(params[:id])
   end
 
+  def new
+    @member = Member.new
+  end
+
+  def create
+    @member = Member.new(member_params)
+    if @member.save
+      redirect_to @member
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @member = Member.find(params[:id])
+  end
+
+  def update
+    @member = Member.find(params[:id])
+    if @member.update(member_params)
+      redirect_to @member
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @member = Member.find(params[:id])
+    @member.destroy
+
+    redirect_to members_path
+  end
+
+
   def search
     members = Member.search(params[:query]).limit(10).select(:id, :first_name, :last_name, :email)
     render json: members
@@ -50,6 +84,9 @@ class MemberController < ApplicationController
   end
 
   private
+
+  def member_params
+    params.require(:member).permit(:email, :first_name, :last_name, :uid, :avatar_url, :class_year, :role, :phone_number, :address, :uin)
 
   def restrict_non_admins
     redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
