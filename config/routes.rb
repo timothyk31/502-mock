@@ -44,7 +44,11 @@ Rails.application.routes.draw do
       post :verify
     end
   end
-  resources :speakers
+  resources :speakers, only: %i[index show edit update destroy] do
+    collection do
+      get 'search', to: 'speakers#search'
+    end
+  end
 
   resources :developer, only: %i[index] do
     collection do

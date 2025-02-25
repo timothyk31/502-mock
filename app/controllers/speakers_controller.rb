@@ -43,6 +43,11 @@ class SpeakersController < ApplicationController
     redirect_to admin_path
   end
 
+  def search
+    members = Member.search(params[:query]).limit(10).select(:id, :first_name, :last_name, :email)
+    render json: members
+  end
+
   def authenticate_speaker!
     redirect_to root_path, alert: 'Access denied.' unless current_member.role >= 1
   end
