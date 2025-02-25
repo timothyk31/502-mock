@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       post :verify
     end
   end
-  resources :speakers, only: %i[index show edit update destroy] do
+  resources :speakers, only: %i[index show edit update destroy create new] do
     collection do
       get 'search', to: 'speakers#search'
     end
