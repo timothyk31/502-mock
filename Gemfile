@@ -103,3 +103,4 @@ gem 'csv'
 
 gem 'rails_icons', '~> 1.1'
 gem 'kaminari'
+gem 'mini_magick'

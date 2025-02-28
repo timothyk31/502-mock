@@ -1,0 +1,9 @@
+<h1>Transactions</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <% @transactions.each do |transaction| %>
+    <%= render partial: 'transactions/transaction', locals: { transaction: transaction } %>
+  <% end %>
+</div>
+
+<%= link_to 'New Transaction', new_transaction_path, class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4' %>

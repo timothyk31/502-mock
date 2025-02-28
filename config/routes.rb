@@ -57,6 +57,8 @@ Rails.application.routes.draw do
           end
      end
 
+     resources :transactions
+
      get 'admin', to: 'admin#index'
 
      root to: 'member#index'

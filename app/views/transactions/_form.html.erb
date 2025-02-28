@@ -1,0 +1,57 @@
+<%= form_with(model: @transaction, local: true) do |form| %>
+  <% if @transaction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+
+      <ul>
+        <% @transaction.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :statement_of_purpose %>
+    <%= form.text_area :statement_of_purpose %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pay_type %>
+    <%= form.select :pay_type, Transaction.pay_types.keys.map { |type| [type.humanize, type] } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :receipt_picture %>
+    <%= form.file_field :receipt_picture %>
+  </div>
+
+  <h3>Transaction Payments</h3>
+  <div id="transaction_payments">
+    <%= form.fields_for :payment_transaction do |payment_form| %>
+      <div class="nested-fields">
+        <div class="field">
+          <%= payment_form.label :category %>
+          <%= payment_form.select :category, TransactionPayment.categories.keys.map { |category| [category.humanize, category] } %>
+        </div>
+        <div class="field">
+          <%= payment_form.label :amount %>
+          <%= payment_form.number_field :amount %>
+        </div>
+        <%= link_to "Remove", '#', class: "remove_fields" %>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "Add Payment", '#', id: "add_payment", class: "add_fields" %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= javascript_include_tag 'nested_form' %>
