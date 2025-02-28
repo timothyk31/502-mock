@@ -53,7 +53,7 @@ class TransactionsController < ApplicationController
      end
 
      def transaction_params
-          params.require(:transaction).permit(:name, :statement_of_purpose, :approved, :approve_member_id, :response_msg, :pay_type, :receipt_picture, payment_transaction_attributes: %i[id category amount _destroy])
+          params.require(:transaction).permit(:name, :statement_of_purpose, :approved, :approve_member_id, :response_msg, :pay_type, :receipt_url, payment_transaction_attributes: %i[id category amount _destroy])
      end
 
      def restrict_non_admins

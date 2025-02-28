@@ -19,12 +19,13 @@
   </div>
 
   <div class="flex mb-4">
-    <% if transaction.receipt_picture.attached? %>
+    <% if transaction.receipt_url? %>
       <div class="w-1/2">
-        <p class="text-gray-700"><strong>Receipt:</strong></p>
-        <div class="w-full h-auto rounded overflow-hidden">
-          <%= image_tag transaction.receipt_picture, style: "max-width: 100%; max-height: 100%;" %>
-        </div>
+      <p class="text-gray-700"><strong>Receipt:</strong></p>
+      <div class="w-full h-auto rounded overflow-hidden">
+        <%= image_tag transaction.receipt_url, style: "max-width: 100%; max-height: 100%;" %>
+        <p class="text-gray-700"><strong>Receipt URL:</strong> <%= url_for(transaction.receipt_url) %></p>
+      </div>
       </div>
     <% end %>
 
