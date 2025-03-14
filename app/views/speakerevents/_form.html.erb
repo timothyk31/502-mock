@@ -1,0 +1,31 @@
+<%= form_with model: @speakerevent, url: @speakerevent.new_record? ? speaker_events_path : speakerevent_path(@speakerevent), local: true, html: { class: "space-y-6" } do |f| %>
+    <% if @speakerevent.errors.any? %>
+        <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <h2 class="font-bold mb-2"><%= pluralize(@speakerevent.errors.count, "error") %> prohibited this event from being saved:</h2>
+            <ul>
+                <% @speakerevent.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+        <%= f.label :event_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :event_name, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :ytlink, "YouTube Link", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :ytlink, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :speaker_id, "Speaker", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.collection_select :speaker_id, Speaker.all, :id, :name, prompt: "Select a Speaker", class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit @speakerevent.new_record? ? "Create Event" : "Save Changes", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+<% end %>

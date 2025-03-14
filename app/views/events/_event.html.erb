@@ -56,6 +56,25 @@
     <% end %>
   <% end %>
 
+  <!-- Event Speakers -->
+  <% if event.speaker_events.any? %>
+    <div class="mt-4">
+      <h4 class="text-lg font-semibold mb-2">Speakers:</h4>
+      <ul class="list-disc list-inside">
+        <% event.speaker_events.each do |speakers_event| %>
+          <li class="mb-2">
+            <p class="text-gray-700"><%= speakers_event.speaker.name %></p>
+            <% if speakers_event.ytLink.present? %>
+              <div class="mt-1">
+                <iframe width="560" height="315" src="<%= speakers_event.ytLink %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <% if event.start_time < Time.current %>
     <!-- Export Non-Attendees Link -->
     <div class="flex justify-end">

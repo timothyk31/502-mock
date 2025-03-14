@@ -48,7 +48,7 @@ class SpeakersController < ApplicationController
   end
 
   def speaker_params
-    params.require(:speaker).permit(:name, :email, :details)
+    params.require(:speaker).permit(:name, :email, :details, speaker_events_attributes: %i[id event_name ytlink _destroy])
   end
 
   def authenticate_speaker!

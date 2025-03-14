@@ -32,7 +32,7 @@
   </div>
 
   <h3>Transaction Payments</h3>
-  <div id="transaction_payments">
+  <div id="parent">
     <%= form.fields_for :payment_transaction do |payment_form| %>
       <div class="nested-fields">
         <div class="field">
@@ -47,7 +47,7 @@
       </div>
     <% end %>
   </div>
-  <%= link_to "Add Payment", '#', id: "add_payment", class: "add_fields" %>
+  <%= link_to "Add Payment", '#', id: "add_item", class: "add_fields" %>
 
   <div class="actions">
     <%= form.submit %>

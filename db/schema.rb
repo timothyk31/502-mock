@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_28_234216) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_14_063936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_28_234216) do
     t.index ["email"], name: "index_members_on_email", unique: true
   end
 
+  create_table "speaker_events", force: :cascade do |t|
+    t.string "ytLink"
+    t.bigint "event_id", null: false
+    t.bigint "speaker_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_speaker_events_on_event_id"
+    t.index ["speaker_id"], name: "index_speaker_events_on_speaker_id"
+  end
+
   create_table "speakers", force: :cascade do |t|
     t.string "name"
     t.string "details"
@@ -81,6 +91,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_28_234216) do
 
   add_foreign_key "attendances", "events"
   add_foreign_key "attendances", "members"
+  add_foreign_key "speaker_events", "events"
+  add_foreign_key "speaker_events", "speakers"
   add_foreign_key "transaction_payments", "transactions"
   add_foreign_key "transactions", "members", column: "approve_member_id"
   add_foreign_key "transactions", "members", column: "request_member_id"
