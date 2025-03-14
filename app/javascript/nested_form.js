@@ -1,4 +1,17 @@
 function initializeNestedForm() {
+  console.log("initializeNestedForm");
+  // Clear all old event listeners by cloning nodes and replacing
+  document.querySelectorAll(".remove_fields").forEach(function(link) {
+    let newLink = link.cloneNode(true);
+    link.parentNode.replaceChild(newLink, link);
+  }
+  );
+  let add_item = document.querySelector("#add_item");
+  if (add_item) {
+    let newAddItem = add_item.cloneNode(true);
+    add_item.parentNode.replaceChild(newAddItem, add_item);
+  }
+
   let nested_fields = document.querySelector(".nested-fields").cloneNode(true);
 
   function attachRemoveHandler(link) {
@@ -32,5 +45,5 @@ function initializeNestedForm() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initializeNestedForm);
+// document.addEventListener("DOMContentLoaded", initializeNestedForm);
 document.addEventListener("turbo:load", initializeNestedForm);
