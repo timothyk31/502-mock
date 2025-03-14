@@ -1,0 +1,14 @@
+<div class="card bg-white shadow-md rounded-lg p-4 mb-4">
+    <h1 class="text-2xl font-bold mb-2"><%= speaker.name %></h1>
+    <li class="text-lg text-gray-700 mb-1"><%= speaker.email %></li>
+    <li class="text-base text-gray-600"><%= speaker.details %></li>
+
+    <% if current_member.admin? %>
+        <%= link_to 'Edit', edit_speaker_path(speaker), class: "text-blue-500 hover:underline" %>
+    <% end %>
+</div>
+<%# <iframe width="400" height="200"
+    src="https://www.youtube.com/embed/ZziplWM5S2Q?modestbranding=1&controls=0&amp;" 
+    frameborder="0"
+    allowfullscreen>
+</iframe> %>
