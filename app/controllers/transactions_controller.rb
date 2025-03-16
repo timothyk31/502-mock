@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
           else
                puts 'Transaction was not created.'
                puts @transaction.errors.full_messages
-               render :new, notice: 'Transaction was not created.'
+               render :new, status: :unprocessable_entity
           end
      end
 
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
           if @transaction.update(transaction_params)
                redirect_to @transaction, notice: 'Transaction was successfully updated.'
           else
-               render :edit
+               render :edit, status: :unprocessable_entity
           end
      end
 
