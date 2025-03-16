@@ -1,8 +1,12 @@
 <div class="bg-white shadow-md rounded-lg p-6 mb-4">
   <div class="flex justify-between items-center mb-4">
     <h3 class="text-xl font-bold"><%= transaction.name %></h3>
-    <%= form_with model: transaction, url: transaction_path(transaction), method: :patch, local: true do |f| %>
-      <%= f.select :approved, [['Pending', 'false'], ['Approved', 'true']], { selected: transaction.approved.to_s }, { onchange: 'this.form.submit()' } %>
+    <% if current_member.role >= 5 %>
+      <%= form_with model: transaction, url: transaction_path(transaction), method: :patch, local: true do |f| %>
+        <%= f.select :approved, [['Pending', 'false'], ['Approved', 'true']], { selected: transaction.approved.to_s }, { onchange: 'this.form.submit()' } %>
+      <% end %>
+    <% else %>
+      <%= transaction.approved? ? 'Approved' : 'Pending' %>
     <% end %>
   </div>
 

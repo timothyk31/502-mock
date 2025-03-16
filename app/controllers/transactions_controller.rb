@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
      before_action :authenticate_member!
-     before_action :restrict_non_admins
+     # before_action :restrict_non_admins
      before_action :set_transaction, only: %i[show edit update destroy]
 
      def index
@@ -58,7 +58,8 @@ class TransactionsController < ApplicationController
           params.require(:transaction).permit(:name, :statement_of_purpose, :approved, :approve_member_id, :response_msg, :pay_type, :receipt_url, payment_transaction_attributes: %i[id category amount _destroy])
      end
 
-     def restrict_non_admins
-          redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
-     end
+     
+     # def restrict_non_admins
+     #      redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
+     # end
 end
