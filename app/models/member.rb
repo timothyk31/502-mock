@@ -27,8 +27,23 @@ class Member < ApplicationRecord
   end
 
   def self.from_google(uid:, email:, first_name:, last_name:, avatar_url:)
-    create_with(uid: uid, first_name: first_name, last_name: last_name, avatar_url: avatar_url)
-      .find_or_create_by!(email: email)
+    member = find_or_initialize_by(email: email)
+    
+    # Update attributes
+    member.uid = uid
+    member.first_name = first_name
+    member.last_name = last_name
+    member.avatar_url = avatar_url
+    
+    # Set default values for required fields if this is a new record
+    if member.new_record?
+      member.class_year ||= 0
+      member.role ||= 0
+      member.uin ||= "default_uin"
+    end
+    
+    member.save!
+    member
   end
 
   def self.search(query)

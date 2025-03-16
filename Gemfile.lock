@@ -103,6 +103,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.0)
+    docile (1.4.1)
     dotenv (3.1.7)
     dotenv-rails (3.1.7)
       dotenv (= 3.1.7)
@@ -330,6 +331,12 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov_json_formatter (0.1.4)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -422,6 +429,7 @@ DEPENDENCIES
   select2-rails
   selenium-webdriver
   shoulda-matchers (~> 5.0)
+  simplecov
   sprockets-rails
   stimulus-rails
   tailwindcss-rails (~> 4.0)

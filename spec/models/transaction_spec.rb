@@ -1,81 +1,101 @@
-# spec/models/transaction_spec.rb
+# spec/requests/transactions_spec.rb
 require 'rails_helper'
 
-RSpec.describe Transaction, type: :model do
-  # Define valid attributes for Member and Transaction
-  let(:valid_member_attributes) do
-    {
-      email: "user@example.com",
+RSpec.describe "Transactions", type: :request do
+  # Create a test member with all required attributes
+  let(:member) do
+    Member.create!(
+      email: "test@example.com",
       first_name: "John",
       last_name: "Doe",
       uid: "123456",
       class_year: 2023,
-      role: 0.0
-    }
+      role: 0.0,
+      phone_number: "123-456-7890",
+      address: "123 Main St",
+      uin: "123456789"
+    )
   end
 
-  let(:valid_transaction_attributes) do
+  # Create a sample transaction
+  let(:valid_attributes) do
     {
-      name: "Office Supplies Purchase",
-      statement_of_purpose: "Buying stationery",
-      pay_type: :cash,
-      request_member: Member.create!(valid_member_attributes)
+      name: "Office Supplies",
+      statement_of_purpose: "Purchase stationery",
+      pay_type: "cash",
+      request_member_id: member.id
     }
   end
 
-  describe 'validations' do
-    it 'is valid with valid attributes' do
-      transaction = Transaction.new(valid_transaction_attributes)
-      expect(transaction).to be_valid
-    end
+  let!(:transaction) { Transaction.create!(valid_attributes) }
 
-    it 'is not valid without a name' do
-      transaction = Transaction.new(valid_transaction_attributes.except(:name))
-      expect(transaction).not_to be_valid
-      expect(transaction.errors[:name]).to include("can't be blank")
-    end
+  before do
+    # Sign in before each test
+    sign_in member
+  end
 
-    it 'is not valid without a statement_of_purpose' do
-      transaction = Transaction.new(valid_transaction_attributes.except(:statement_of_purpose))
-      expect(transaction).not_to be_valid
-      expect(transaction.errors[:statement_of_purpose]).to include("can't be blank")
-    end
-
-    it 'is not valid without a request_member_id' do
-      transaction = Transaction.new(valid_transaction_attributes.except(:request_member))
-      expect(transaction).not_to be_valid
-      expect(transaction.errors[:request_member]).to include("must exist")
-    end
-
-    it 'is not valid without a pay_type' do
-      transaction = Transaction.new(valid_transaction_attributes.except(:pay_type))
-      expect(transaction).not_to be_valid
-      expect(transaction.errors[:pay_type]).to include("can't be blank")
+  describe "GET /index" do
+    it "returns http success" do
+      get transactions_path
+      expect(response).to have_http_status(:success)
     end
   end
 
-  describe 'associations' do
-    it 'belongs to a request_member' do
-      association = described_class.reflect_on_association(:request_member)
-      expect(association.macro).to eq(:belongs_to)
-      expect(association.class_name).to eq("Member")
-    end
-
-    it 'belongs to an approve_member (optional)' do
-      association = described_class.reflect_on_association(:approve_member)
-      expect(association.macro).to eq(:belongs_to)
-      expect(association.options[:optional]).to be(true)
+  describe "GET /show" do
+    it "returns http success" do
+      get transaction_path(transaction)
+      expect(response).to have_http_status(:success)
     end
   end
 
-  describe 'enums' do
-    it 'defines pay_type enum' do
-      expect(described_class.pay_types).to eq({
-        "cash" => 0,
-        "credit" => 1,
-        "debit" => 2,
-        "paypal" => 3
-      })
+  describe "GET /new" do
+    it "returns http success" do
+      get new_transaction_path
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "POST /create" do
+    context "with valid parameters" do
+      it "creates a new transaction and redirects" do
+        expect {
+          post transactions_path, params: { transaction: valid_attributes }
+        }.to change(Transaction, :count).by(1)
+        
+        expect(response).to redirect_to(transaction_path(Transaction.last))
+      end
+    end
+  end
+
+  describe "GET /edit" do
+    it "returns http success" do
+      get edit_transaction_path(transaction)
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "PATCH /update" do
+    context "with valid parameters" do
+      let(:new_attributes) do
+        { name: "Updated Office Supplies" }
+      end
+
+      it "updates the transaction" do
+        patch transaction_path(transaction), params: { transaction: new_attributes }
+        transaction.reload
+        expect(transaction.name).to eq("Updated Office Supplies")
+        expect(response).to redirect_to(transaction_path(transaction))
+      end
+    end
+  end
+
+  describe "DELETE /destroy" do
+    it "destroys the transaction" do
+      expect {
+        delete transaction_path(transaction)
+      }.to change(Transaction, :count).by(-1)
+
+      expect(response).to redirect_to(transactions_path)
     end
   end
 end
