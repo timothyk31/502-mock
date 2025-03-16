@@ -43,6 +43,28 @@ function initializeNestedForm() {
     document.querySelector("#parent").appendChild(newField);
     attachRemoveHandler(newField.querySelector(".remove_fields"));
   });
+
+  document.querySelector("#parent").addEventListener("click", function(event) {
+    if (event.target.classList.contains("remove_fields")) {
+      console.log("Remove clicked");
+      event.preventDefault();
+      
+      let field = event.target.closest(".nested-fields");
+      if (!field) return;
+  
+      let destroyInput = field.querySelector("input[name*='_destroy']");
+      if (destroyInput) {
+        destroyInput.value = "1"; // Mark for removal in Rails
+      }
+      
+      field.style.display = "none"; // Hide the field
+  
+      if (field.classList.contains("new")) {
+        field.remove(); // Remove new fields completely
+      }
+    }
+  });
+
 }
 
 // document.addEventListener("DOMContentLoaded", initializeNestedForm);

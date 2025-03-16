@@ -1,8 +1,9 @@
-<%= form_with(model: @transaction, local: true) do |form| %>
+<%= form_with(model: @transaction, local: true, html: { class: "space-y-6" }) do |form| %>
   <% if @transaction.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
-
+    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+      <h2 class="font-bold mb-2">
+        <%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:
+      </h2>
       <ul>
         <% @transaction.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -12,45 +13,47 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :name, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
 
   <div class="field">
-    <%= form.label :statement_of_purpose %>
-    <%= form.text_area :statement_of_purpose %>
+    <%= form.label :statement_of_purpose, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :statement_of_purpose, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
 
   <div class="field">
-    <%= form.label :pay_type %>
-    <%= form.select :pay_type, Transaction.pay_types.keys.map { |type| [type.humanize, type] } %>
+    <%= form.label :pay_type, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.select :pay_type, Transaction.pay_types.keys.map { |type| [type.humanize, type] },
+      {}, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
 
   <div class="field">
-    <%= form.label :receipt_url %>
-    <%= form.text_area :receipt_url %>
+    <%= form.label :receipt_url, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :receipt_url, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
 
-  <h3>Transaction Payments</h3>
-  <div id="parent">
+  <h3 class="text-lg font-medium text-gray-700">Transaction Payments</h3>
+  <div id="parent" class="space-y-4">
     <%= form.fields_for :payment_transaction do |payment_form| %>
-      <div class="nested-fields">
+      <div class="nested-fields p-4 border rounded-md">
         <div class="field">
-          <%= payment_form.label :category %>
-          <%= payment_form.select :category, TransactionPayment.categories.keys.map { |category| [category.humanize, category] } %>
+          <%= payment_form.label :category, class: "block text-sm font-medium text-gray-700" %>
+          <%= payment_form.select :category, TransactionPayment.categories.keys.map { |c| [c.humanize, c] },
+            {}, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
         </div>
         <div class="field">
-          <%= payment_form.label :amount %>
-          <%= payment_form.number_field :amount %>
+          <%= payment_form.label :amount, class: "block text-sm font-medium text-gray-700" %>
+          <%= payment_form.number_field :amount, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
         </div>
-        <%= link_to "Remove", '#', class: "remove_fields" %>
+        <%= link_to "Remove", '#', class: "text-red-500 hover:underline remove_fields" %>
       </div>
     <% end %>
   </div>
-  <%= link_to "Add Payment", '#', id: "add_item", class: "add_fields" %>
+  <%= link_to "Add Payment", '#', id: "add_item", class: "text-blue-500 hover:underline add_fields" %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Save Transaction", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
   </div>
 <% end %>
 
