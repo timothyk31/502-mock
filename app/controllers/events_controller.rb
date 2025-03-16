@@ -30,12 +30,11 @@ class EventsController < MemberController
 
   def edit
     @event = Event.find(params[:id])
-    @event.speaker_events.build if @event.speaker_events.empty?
+       # @event.speaker_events.build if @event.speaker_events.empty?
   end
 
   def update
     @event = Event.find(params[:id])
-    puts event_params
     if @event.update(event_params)
       redirect_to events_path
     else

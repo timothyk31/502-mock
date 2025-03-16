@@ -14,6 +14,8 @@ function initializeNestedForm() {
 
   let nested_fields = document.querySelector(".nested-fields").cloneNode(true);
 
+  // TODO: Create a hook to submit form and save the current form and replace the new form with the old form
+
   function attachRemoveHandler(link) {
     link.addEventListener("click", function(event) {
       console.log("remove");

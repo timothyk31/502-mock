@@ -1,56 +1,41 @@
 <%= form_with model: @event, url: @event.new_record? ? events_path : event_path(@event), local: true, html: { class: "space-y-6" } do |f| %>
-    <% if @event.errors.any? %>
-        <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            <h2 class="font-bold mb-2"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-            <ul>
-                <% @event.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
-
-    <div class="field">
-        <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :name, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :start_time, class: "block text-sm font-medium text-gray-700" %>
-      <%= f.time_field :start_time, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :end_time, class: "block text-sm font-medium text-gray-700" %>
-      <%= f.time_field :end_time, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
-    </div>
-
-    <h2 class="text-xl font-bold mb-2">Speakers</h2>
-    <div id="parent">
-        <%= f.fields_for :speaker_events do |event_form| %>
-            <div class="nested-fields bg-white shadow overflow-hidden sm:rounded-lg mb-4">
-              <div class="px-4 py-5 sm:px-6">
-                <div class="field">
-                  <%= event_form.label :speaker, "Speaker", class: "block text-sm font-medium text-gray-700" %>
-                  <%= event_form.select :speaker_id, Speaker.all.map { |speaker| [speaker.name, speaker.id] }, { include_blank: true }, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
-                </div>
-
-                <div class="field">
-                  <%= event_form.label :ytLink, "YouTube Link", class: "block text-sm font-medium text-gray-700" %>
-                  <%= event_form.text_field :ytLink, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
-                </div>
-
-                <%= event_form.hidden_field :_destroy %>
-                <%= link_to "Remove", '#', class: "remove_fields" %>
-              </div>
-            </div>
+  <% if @event.errors.any? %>
+    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+      <h2 class="font-bold mb-2"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% @event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
+      </ul>
     </div>
-    <%= link_to "Add Speaker", '#', id: "add_item", class: "add_fields text-blue-500 hover:underline" %>
+  <% end %>
 
-    <div class="actions">
-        <%= f.submit @event.new_record? ? "Create Event" : "Save Changes", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  <div class="field">
+    <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :name, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_time, "Start Date and Time", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.datetime_local_field :start_time, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_time, "End Date and Time", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.datetime_local_field :end_time, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <h2 class="text-xl font-bold mb-2">Speakers</h2>
+  <div id="speakers">
+    <%= f.fields_for :speaker_events do |event_form| %>
+      <%= render 'speaker_event_fields', f: event_form %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Speaker', f, :speaker_events, class: "add_fields text-blue-500 hover:underline" %>
     </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit @event.new_record? ? "Create Event" : "Save Changes", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
 <% end %>
-
-<%= javascript_include_tag 'nested_form' %>
