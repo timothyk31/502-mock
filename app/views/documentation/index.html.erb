@@ -1,0 +1,89 @@
+<h1 class="text-2xl font-bold mb-4">HOW TO USE</h1>
+<p class="text-gray-600 mb-6">Welcome to the documentation page, here you can find instructions on how to use this application</p>
+
+<%# <ul class="list-disc pl-5 mb-6 space-y-2">
+    <li>
+        <a href="#general-members" class="text-blue-500 hover:underline">General Members</a>
+        <ul class="list-disc pl-5 space-y-2">
+            <li><a href="#events-general" class="text-blue-500 hover:underline">Events</a></li>
+            <li><a href="#speakers-general" class="text-blue-500 hover:underline">Speakers</a></li>
+            <li><a href="#transactions-general" class="text-blue-500 hover:underline">Transactions</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#admin-members" class="text-blue-500 hover:underline">Admin Members</a>
+        <ul class="list-disc pl-5 space-y-2">
+            <li><a href="#events" class="text-blue-500 hover:underline">Events</a></li>
+            <li><a href="#speakers" class="text-blue-500 hover:underline">Speakers</a></li>
+            <li><a href="#transactions" class="text-blue-500 hover:underline">Transactions</a></li>
+        </ul>
+    </li>
+</ul> %>
+
+<% if current_member.role >= 5 %>
+<h1 id="admin-members" class="text-2xl font-bold mb-4">Admin Members</h1>
+
+<h2 class="text-xl font-semibold mb-2"> Admin Dashboard </h2>
+<p>On this page an admin can view which events a particular member has attended and gain insights as to which events are most popular</p>
+<%= image_tag "admin_dashboard.png", alt: "Admin dashboard", class: "mb-4", width: "400", height: "400" %>
+<p> Simply type in member names or event names in the appropriate fields to view data</p>
+
+
+<h2 id="events" class="text-xl font-semibold mb-2">Events</h2>
+<p class="mb-4">Admins have the ability to create new events, edit existing events, and delete events. They can also view the attendance code for the current event and the recorded lecture of past events</p>
+<%= image_tag "past_events.png", alt: "Past events", class: "mb-4", width: "400", height: "400" %>
+<p> Click on the events tab to view all past events and their recorded lectures, you can also export the absentees to get an excel file of who did and didn't attned</p>
+<%= image_tag "future_events.png", alt: "Future events", class: "mb-4", width: "400", height: "400" %>
+<p> Click on the future events to see upcoming events and their details and attendance codes</p>
+<%= image_tag "edit_event.png", alt: "Edit events", class: "mb-4", width: "400", height: "400" %>
+<p> Click on the blue pencil button to edit the event details, Click on the red trash can to delete an event</p>
+<p>After an event is completed and the recorded speech is uploaded to an unlisted youtube link, add it to the link field here</p>
+<%= image_tag "new_event.png", alt: "New events", class: "mb-4", width: "400", height: "400" %>
+<p>Click on new event to display a form with fields to create a new event in the system</p>
+<p class="mb-8">Click <a href="/events" class="text-blue-500 hover:underline">here</a> to view all events.</p>
+
+<h2 id="speakers" class="text-xl font-semibold mb-2">Speakers</h2>
+<p class="mb-4">Admins have the ability to create new speakers, edit existing speakers, and delete speakers. They can also view the contact information of each speaker</p>
+<%= image_tag "view_speaker.png", alt: "View speakers", class: "mb-4", width: "400", height: "400"  %>
+<p>Click on the speakers tab to view all speakers and their contact information</p>
+<%= image_tag "new_speaker.png", alt: "New speakers", class: "mb-4", width: "400", height: "400" %>
+<p>Click on new speaker to display a form with fields to create a new speaker in the system</p>
+<%= image_tag "edit_speaker.png", alt: "Edit speakers", class: "mb-4", width: "400", height: "400"  %>
+<p>Click on the blue "edit" button to enter a form to edit the selected speaker </p>
+<p class="mb-8">Click <a href="/speakers" class="text-blue-500 hover:underline">here</a> to view all speakers.</p>
+
+<h2 id="transactions" class="text-xl font-semibold mb-2">Transactions</h2>
+<p class="mb-4">Admins have the ability to approve or deny transaction requests submitted by general members. They can also view all transaction requests and see if they are approved or not, and a reason why</p>
+<%= image_tag "view_transaction.png", alt: "Transactions", class: "mb-4", width: "400", height: "400" %>
+<p>Click on the transactions tab to view all transaction requests and their details</p>
+<%= image_tag "new_transaction.png", alt: "Transactions", class: "mb-4", width: "400", height: "400" %>
+<p>Click on new transaction to display a form with fields to create a new transaction request in the system</p>
+<p>Click on edit to view the transaction details and approve or deny the request</p>
+<p class="mb-8">Click <a href="/transactions" class="text-blue-500 hover:underline">here</a> to view all transactions.</p>
+
+<h2 class="text-xl font-semibold mb-2">Members</h2>
+<p class="mb-4">Admins have the ability to view all members of the organization, approve them if their dues have been paid, and see their contact information</p>
+<%= image_tag "approve_member.png", alt: "Members", class: "mb-4", width: "400", height: "400" %>
+<p class="mb-4">Access the members page using the navigation bar, and click on the drop down and approve a member by switching them from unpaid to paid or admin</p>
+<p class="mb-8">Click <a href="/list_members" class="text-blue-500 hover:underline">here</a> to view all members.</p>
+<% end %>
+
+<h1 id="general-members" class="text-2xl font-bold mb-4">General Members</h1>
+<h2 id="events-general" class="text-xl font-semibold mb-2">Events</h2>
+<p class="mb-4">Events are the main feature of this application. You can view the events tab to see past and present events. If there is a current event, this tab will have a spot for an attendance code. If the event consisted of a guest speaker, their name and recorded lecture will also appear here</p>
+<p class="mb-8">Click <a href="/events" class="text-blue-500 hover:underline">here</a> to view all events.</p>
+
+<h2 id="speakers-general" class="text-xl font-semibold mb-2">Speakers</h2>
+<p class="mb-4">Speakers are the people who will be speaking at the events. You can click on the speakers tab to access the contact information of each speaker</p>
+<p class="mb-8">Click <a href="/speakers" class="text-blue-500 hover:underline">here</a> to view all speakers.</p>
+
+<h2 id="transactions-general" class="text-xl font-semibold mb-2">Transactions</h2>
+<p class="mb-4">If you made a purchase for an organization event, you can submit a reimbursement request through the website.</p>
+<p class="mb-4">To do this, click on the transactions tab and click "new transaction", here you will be prompted to fill out all of the fields needed. Once you submit the request, an admin will review it and approve or deny it.</p>
+<p class="mb-4">From this page you can monitor every transaction request submitted by YOU and see if they are approved or not, and a reason why</p>
+<p class="mb-8">Click <a href="/transactions" class="text-blue-500 hover:underline">here</a> to view all transactions.</p>
+
+
+
+
+
