@@ -1,8 +1,18 @@
-<h1>Transactions</h1>
+<% if current_member.role >= 5 %>
+  <h1 class="text-xl font-bold">All Transactions</h1>
+<% elsif current_member.role >= 1 %>
+  <h1 class="text-xl font-bold">My Transactions</h1>
+<% end %>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  <% @transactions.each do |transaction| %>
-    <%= render partial: 'transactions/transaction', locals: { transaction: transaction } %>
+  <% if current_member.role >= 5 %>
+    <% @transactions.each do |transaction| %>
+      <%= render partial: 'transactions/transaction', locals: { transaction: transaction } %>
+    <% end %>
+  <% else %>
+    <% @transactions.where(request_member_id: current_member.id).each do |transaction| %>
+      <%= render partial: 'transactions/transaction', locals: { transaction: transaction } %>
+    <% end %>
   <% end %>
 </div>
 
