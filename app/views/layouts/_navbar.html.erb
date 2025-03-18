@@ -28,12 +28,18 @@
             <li>
               <%= link_to "Speakers", speakers_path, class: "text-white" %>
             </li>
+            <li>
+              <%= link_to "Documentation", documentation_path, class: "text-white" %>
+            </li>
           <% else %>
             <li>
               <%= link_to "Events", events_path, class: "text-white" %>
             </li>
             <li>
-              <%= link_to "Transactions", transactions_path, class: "text-white" %>
+                <%= link_to "Transactions", transactions_path, class: "text-white" %>
+            </li>
+            <li>
+              <%= link_to "Documentation", documentation_path, class: "text-white" %>
             </li>
           <% end %>
           <li>
