@@ -6,8 +6,6 @@ class Member < ApplicationRecord
   has_many :attendances
   has_many :events, through: :attendances
 
-  
-
   # TODO: MIGRATE TO THIS LATER
   # enum role: {
   #   unapproved_member: 0,
@@ -18,13 +16,34 @@ class Member < ApplicationRecord
   #   administrator: 5
   # }
 
+  paginates_per 20
+
+  def admin?
+    role >= 5
+  end
+
   def self.non_attendees_for(event_id)
     where.not(id: Attendance.for_event(event_id).pluck(:member_id))
   end
 
   def self.from_google(uid:, email:, first_name:, last_name:, avatar_url:)
-    create_with(uid: uid, first_name: first_name, last_name: last_name, avatar_url: avatar_url)
-      .find_or_create_by!(email: email)
+    member = find_or_initialize_by(email: email)
+    
+    # Update attributes
+    member.uid = uid
+    member.first_name = first_name
+    member.last_name = last_name
+    member.avatar_url = avatar_url
+    
+    # Set default values for required fields if this is a new record
+    if member.new_record?
+      member.class_year ||= 0
+      member.role ||= 0
+      member.uin ||= "default_uin"
+    end
+    
+    member.save!
+    member
   end
 
   def self.search(query)
@@ -38,18 +57,32 @@ class Member < ApplicationRecord
   def role_name
     return 'Developer' if ENV['DEV_EMAIL'] == email
 
+    # case role
+    # when 'unapproved_member'
+    #   'Unapproved Member'
+    # when 'member'
+    #   'Member'
+    # when 'unknown2'
+    #   'Unknown 2'
+    # when 'unknown3'
+    #   'Unknown 3'
+    # when 'unknown4'
+    #   'Unknown 4'
+    # when 'administrator'
+    #   'Administrator'
+    # end
     case role
-    when 'unapproved_member'
+    when 0
       'Unapproved Member'
-    when 'member'
+    when 1
       'Member'
-    when 'unknown2'
+    when 2
       'Unknown 2'
-    when 'unknown3'
+    when 3
       'Unknown 3'
-    when 'unknown4'
+    when 4
       'Unknown 4'
-    when 'administrator'
+    when 5
       'Administrator'
     end
   end

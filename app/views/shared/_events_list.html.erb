@@ -15,7 +15,7 @@
   <h1 class="text-2xl font-bold mb-4"><%= params[:filter] == 'past' ? 'Past Events' : 'Future Events' %></h1>
   <ul>
     <% @events.each do |event| %>
-      <%= render partial: 'events/detailed_event', locals: { event: event } %>
+      <%= render partial: 'events/event', locals: { event: event } %>
     <% end %>
   </ul>
 </div>

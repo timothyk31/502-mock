@@ -1,0 +1,46 @@
+<%= form_with(model: @transaction, local: true, html: { class: "space-y-6" }) do |form| %>
+  <% if @transaction.errors.any? %>
+    <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+      <h2 class="font-bold mb-2"><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+      <ul class="list-disc list-inside">
+        <% @transaction.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :name, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :statement_of_purpose, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :statement_of_purpose, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pay_type, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.select :pay_type, Transaction.pay_types.keys.map { |type| [type.humanize, type] }, {}, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :receipt_url, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :receipt_url, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <h3 class="text-xl font-bold mb-4">Transaction Payments</h3>
+  <div id="payments">
+    <%= form.fields_for :payment_transaction do |payment_form| %>
+      <%= render 'payment_transaction_fields', f: payment_form %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Payment', form, :payment_transaction, class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit @transaction.new_record? ? "Create Transaction" : "Update Transaction", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>

@@ -1,0 +1,64 @@
+<div class="bg-white shadow-md rounded-lg p-6 mb-4">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold"><%= transaction.name %></h3>
+    <% if current_member.role >= 5 %>
+      <%= form_with model: transaction, url: transaction_path(transaction), method: :patch, local: true do |f| %>
+        <%= f.select :approved, [['Pending', 'false'], ['Approved', 'true']], { selected: transaction.approved.to_s }, { onchange: 'this.form.submit()' } %>
+      <% end %>
+    <% else %>
+      <%= transaction.approved? ? 'Approved' : 'Pending' %>
+    <% end %>
+  </div>
+
+
+  <div class="mb-4">
+    <p class="text-gray-700"><strong>Statement of Purpose:</strong> <%= transaction.statement_of_purpose %></p>
+    <p class="text-gray-700"><strong>Requested By:</strong> <%= transaction.request_member.first_name %> <%= transaction.request_member.last_name %></p>
+    <% if transaction.approve_member %>
+      <p class="text-gray-700"><strong>Approved By:</strong> <%= transaction.approve_member.first_name %> <%= transaction.approve_member.last_name %></p>
+    <% end %>
+    <p class="text-gray-700"><strong>Response Message:</strong> <%= transaction.response_msg %></p>
+    <p class="text-gray-700"><strong>Payment Type:</strong> <%= transaction.pay_type.humanize %></p>
+  </div>
+
+  <div class="flex mb-4">
+    <% if transaction.receipt_url? %>
+      <div class="w-1/2">
+      <p class="text-gray-700"><strong>Receipt:</strong></p>
+      <div class="w-full h-auto rounded overflow-hidden">
+        <%= image_tag transaction.receipt_url, style: "max-width: 100%; max-height: 100%;" %>
+        <p class="text-gray-700"><strong>Receipt URL:</strong> <%= url_for(transaction.receipt_url) %></p>
+      </div>
+      </div>
+    <% end %>
+
+    <% if transaction.payment_transaction.any? %>
+      <div class="w-1/2">
+        <p class="text-gray-700"><strong>Payments:</strong></p>
+          <% transaction.payment_transaction.each do |payment| %>
+              <table class="min-w-full bg-white ">
+                <thead>
+                  <tr>
+                    <th class="py-2">Category</th>
+                    <th class="py-2">Amount</th>
+                    <th class="py-2">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border px-4 py-2"><%= payment.category %></td>
+                    <td class="border px-4 py-2"><%= number_to_currency(payment.amount) %></td>
+                    <td class="border px-4 py-2"><%= payment.created_at.strftime("%B %d, %Y") %></td>
+                  </tr>
+                </tbody>
+              </table>
+          <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex justify-end space-x-2">
+    <%= link_to 'Edit', edit_transaction_path(transaction), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    <%= button_to 'Delete', transaction_path(transaction), method: :delete, form:{ data: { turbo_confirm: 'Are you sure?' }} , class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>
+  </div>
+</div>

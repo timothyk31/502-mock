@@ -84,6 +84,8 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'simplecov', require: false
+
 end
 
 gem 'tailwindcss-rails', '~> 4.0'
@@ -100,3 +102,8 @@ gem 'drb'
 gem 'benchmark'
 
 gem 'csv'
+
+gem 'rails_icons', '~> 1.1'
+gem 'kaminari'
+gem 'mini_magick'
+gem 'cocoon', '~> 1.2'

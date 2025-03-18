@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "members-grid" do %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
+      <% @members.each do |member| %>
+          <%= render partial: 'member/member', locals: { member: member } %>
+      <% end %>
+  </div>
+  <div class="mt-4 flex justify-center">
+    <%= paginate members %>
+  </div>
+<% end %>

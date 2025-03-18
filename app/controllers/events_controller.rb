@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class EventsController < MemberController
-  before_action :restrict_non_admins, except: %i[show]
+  before_action :restrict_non_admins, except: %i[show index]
+
+  def index
+    super.index
+  end
 
   def show
     @event = Event.find(params[:id])
@@ -9,12 +13,13 @@ class EventsController < MemberController
 
   def new
     @event = Event.new
+    @event.speaker_events.build
   end
 
   def create
     @event = Event.new(event_params)
-    # Generate random 6 digit include letters and numbers for attendance code
-    @event.attendance_code = SecureRandom.alphanumeric(6)
+    # Generate random 6 digit attendance code
+    @event.attendance_code = SecureRandom.random_number(1_000_000) if @event.attendance_code.nil?
 
     if @event.save
       redirect_to @event
@@ -25,14 +30,15 @@ class EventsController < MemberController
 
   def edit
     @event = Event.find(params[:id])
+       # @event.speaker_events.build if @event.speaker_events.empty?
   end
 
   def update
     @event = Event.find(params[:id])
     if @event.update(event_params)
-      redirect_to @event
+      redirect_to events_path
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -40,7 +46,7 @@ class EventsController < MemberController
     @event = Event.find(params[:id])
     @event.destroy
 
-    redirect_to admin_path
+    redirect_to events_path
   end
 
   def attendance_chart
@@ -73,7 +79,7 @@ class EventsController < MemberController
   private
 
   def event_params
-    permitted_params = %i[name start_time end_time location]
+    permitted_params = [:name, :start_time, :end_time, :location, { speaker_events_attributes: %i[id ytLink speaker_id _destroy] }]
     permitted_params << :attendance_code if current_member.role >= 5
     params.require(:event).permit(permitted_params)
   end

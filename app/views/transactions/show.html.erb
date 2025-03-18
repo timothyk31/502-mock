@@ -1,0 +1,5 @@
+<h1>Transaction Details</h1>
+
+<%= render partial: 'transactions/transaction', locals: { transaction: @transaction } %>
+
+<%= link_to 'Back', transactions_path, class: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4' %>

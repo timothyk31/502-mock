@@ -1,4 +1,4 @@
-<li class="member-card shadow-lg rounded-lg p-4 mb-4 bg-white">
+<li class="member-card shadow-lg rounded-lg p-4 bg-white flex flex-col justify-between w-full max-w-xs">
   <div class="flex justify-between items-start">
     <div>
       <div class="text-lg font-bold">
@@ -9,18 +9,50 @@
       </div>
     </div>
   </div>
-  <div class="mt-2 text-right">
-    <p>Email: <%= link_to member.email, member %></p>
-    <p><%= member.role_name %></p>
-  </div>
-</li>
 
-<style>
-  .member-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 150px;
-    width: 300px;
+  <div class="mt-2">
+    <p class="text-sm text-gray-600">Email: <%= link_to member.email, member, class: "text-blue-500 hover:underline" %></p>
+  </div>
+
+  <!-- Role Selection Dropdown -->
+ <div class="mt-4">
+    <% roles = [["Unpaid", 0], ["Paid", 1], ["Admin", 5]] %>
+    <% selected, others = roles.partition { |_, value| value == member.role } %>
+    <% ordered_roles = selected + others %>
+    <div class="relative">
+      <%= select_tag "members[#{member.id}]", 
+          options_for_select(ordered_roles, member.role), 
+          class: "block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline", 
+          data: { member_id: member.id }, 
+          onchange: "updateRole(this)" %>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+        </svg>
+      </div>
+    </div>
+</div>
+
+<script>
+  function updateRole(selectElement) {
+    const memberId = selectElement.dataset.memberId;
+    const selectedRole = selectElement.value;
+
+    fetch(`/members/${memberId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
+      },
+      body: JSON.stringify({ role: selectedRole })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Role updated:", data);
+    })
+    .catch(error => {
+      console.error("Error updating role:", error);
+    });
   }
-</style>
+</script>
+</li>

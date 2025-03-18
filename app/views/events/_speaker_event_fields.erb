@@ -1,0 +1,15 @@
+<div class="nested-fields bg-white shadow overflow-hidden sm:rounded-lg mb-4">
+  <div class="px-4 py-5 sm:px-6">
+    <div class="field">
+      <%= f.label :speaker, "Speaker", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :speaker_id, Speaker.all.map { |speaker| [speaker.name, speaker.id] }, { include_blank: true }, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :ytLink, "YouTube Link", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :ytLink, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+    </div>
+
+    <%= link_to_remove_association "Remove", f, class: "text-red-500 hover:underline" %>
+  </div>
+</div>

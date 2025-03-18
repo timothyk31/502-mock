@@ -1,0 +1,13 @@
+<div class="nested-fields bg-white shadow overflow-hidden sm:rounded-lg mb-4 p-4">
+  <div class="field">
+    <%= f.label :category, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :category, TransactionPayment.categories.keys.map { |category| [category.humanize, category] }, {}, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.number_field :amount, step: "0.01", class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <%= link_to_remove_association "Remove Payment", f, class: "mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+</div>

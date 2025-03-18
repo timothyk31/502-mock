@@ -4,6 +4,9 @@ class Event < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_many :members, through: :attendances
 
+  has_many :speaker_events, dependent: :destroy
+  accepts_nested_attributes_for :speaker_events, allow_destroy: true
+
   validates :name, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
