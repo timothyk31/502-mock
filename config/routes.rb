@@ -14,6 +14,7 @@ Rails.application.routes.draw do
      devise_scope :member do
           get 'member/sign_in', to: 'sessions#new', as: :new_member_session
           get 'member/sign_out', to: 'sessions#destroy', as: :destroy_member_session
+          get '/members/auth/failure', to: 'omniauth_callbacks#failure'
      end
 
      resources :members, controller: 'member', only: %i[index show edit update destroy] do

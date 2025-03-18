@@ -1,5 +1,31 @@
 # frozen_string_literal: true
 
+# Load SimpleCov first to ensure coverage tracking
+require 'simplecov'
+SimpleCov.start 'rails' do
+  coverage_dir('tmp/coverage')
+  
+  add_filter %w[
+    /spec/
+    /app/channels/
+    /app/jobs/
+    /app/mailers/
+    /app/views/
+    /lib/tasks/
+    /db/
+  ]
+
+  add_group 'Models', 'app/models'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Services', 'app/services'
+end
+
+# Force SimpleCov to write report even if tests fail
+SimpleCov.at_exit do
+  SimpleCov.result.format!
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -36,6 +62,7 @@ end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
