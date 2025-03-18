@@ -4,7 +4,7 @@
   <h1 class="text-xl font-bold">My Transactions</h1>
 <% end %>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="gap-4">
   <% if current_member.role >= 5 %>
     <% @transactions.each do |transaction| %>
       <%= render partial: 'transactions/transaction', locals: { transaction: transaction } %>

@@ -49,7 +49,7 @@
           </div>
           <div class="field">
             <%= payment_form.label :amount, class: "block text-sm font-medium text-gray-700" %>
-            <%= payment_form.number_field :amount, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= payment_form.number_field :amount, step: "0.01", class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
           </div>
           <%= link_to "Remove", '#', class: "text-red-500 hover:underline remove_fields" %>
         </div>
@@ -63,7 +63,6 @@
     </div>
   <% end %>
 
-  <%= javascript_include_tag 'nested_form' %>
 <% else %>
   <p>You do not have permission to edit this transaction.</p>
 <% end %>
