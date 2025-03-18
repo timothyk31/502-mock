@@ -46,7 +46,7 @@ class EventsController < MemberController
     @event = Event.find(params[:id])
     @event.destroy
 
-    redirect_to admin_path
+    redirect_to events_path
   end
 
   def attendance_chart

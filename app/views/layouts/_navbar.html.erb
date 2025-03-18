@@ -12,6 +12,8 @@
               <%= link_to "Dashboard", members_path, class: "text-white" %>
             <% end %>
           </li>
+
+
           
           <% if current_member && current_member.admin? %> 
             <li>
@@ -29,6 +31,9 @@
           <% else %>
             <li>
               <%= link_to "Events", events_path, class: "text-white" %>
+            </li>
+            <li>
+              <%= link_to "Transactions", transactions_path, class: "text-white" %>
             </li>
           <% end %>
           <li>
