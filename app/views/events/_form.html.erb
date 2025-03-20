@@ -16,6 +16,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :location, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :location, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+  </div>
+
+  <div class="field">
     <%= f.label :start_time, "Start Date and Time", class: "block text-sm font-medium text-gray-700" %>
     <%= f.datetime_local_field :start_time, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
