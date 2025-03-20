@@ -25,6 +25,7 @@ class TransactionsController < ApplicationController
           puts 'Trying to save transaction...'
           if @transaction.save
                puts 'Transaction was successfully created.'
+               Rails.logger.warn("User #{current_member.id} created transaction #{@transaction.id}")
                redirect_to @transaction, notice: 'Transaction was successfully created.'
           else
                puts 'Transaction was not created.'
@@ -36,6 +37,7 @@ class TransactionsController < ApplicationController
      def update
           if @transaction.update(transaction_params)
                redirect_to @transaction, notice: 'Transaction was successfully updated.'
+               Rails.logger.warn("User #{current_member.id} updated transaction #{@transaction.id}")
           else
                render :edit, status: :unprocessable_entity
           end

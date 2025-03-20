@@ -29,6 +29,7 @@ class MemberController < ApplicationController
     if @member.update(member_params)
       # return back
       redirect_to request.referer, notice: 'Member updated successfully.'
+      Rails.logger.warn("Member #{@member.id}'s role updated by #{current_member.id}")
     else
       redirect_to request.referer, alert: 'Member could not be updated.'
     end
