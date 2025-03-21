@@ -45,6 +45,7 @@ class TransactionsController < ApplicationController
 
      def destroy
           @transaction = Transaction.find(params[:id])
+          Rails.logger.warn("User #{current_member.id} deleted transaction #{@transaction.id}")
           @transaction.destroy
           @transaction.payment_transaction.destroy
           redirect_to transactions_url, notice: 'Transaction was successfully destroyed.'

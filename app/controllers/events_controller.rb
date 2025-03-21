@@ -22,6 +22,7 @@ class EventsController < MemberController
     @event.attendance_code = SecureRandom.random_number(1_000_000) if @event.attendance_code.nil?
 
     if @event.save
+      Rails.logger.warn("User #{current_member.id} created event #{@event.id}")
       redirect_to @event
     else
       render :new, status: :unprocessable_entity
@@ -36,6 +37,7 @@ class EventsController < MemberController
   def update
     @event = Event.find(params[:id])
     if @event.update(event_params)
+      Rails.logger.warn("User #{current_member.id} updated event #{@event.id}")
       redirect_to events_path
     else
       render :edit, status: :unprocessable_entity
@@ -44,8 +46,9 @@ class EventsController < MemberController
 
   def destroy
     @event = Event.find(params[:id])
+    id = @event.id
+    Rails.logger.warn("User #{current_member.id} deleted event #{id}")
     @event.destroy
-
     redirect_to events_path
   end
 

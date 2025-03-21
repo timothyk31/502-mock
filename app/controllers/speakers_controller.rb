@@ -22,6 +22,7 @@ class SpeakersController < ApplicationController
   def create
     @speaker = Speaker.new(speaker_params)
     if @speaker.save
+      Rails.logger.warn("User #{current_member.id} created speaker #{@speaker.id}")
       redirect_to speakers_path, notice: 'Speaker was successfully created.'
     else
       render :new, status: :unprocessable_entity
@@ -30,6 +31,7 @@ class SpeakersController < ApplicationController
 
   def update
     if @speaker.update(speaker_params)
+      Rails.logger.warn("User #{current_member.id} updated speaker #{@speaker.id}")
       redirect_to speakers_path, notice: 'Speaker was successfully updated.'
     else
       render :edit
@@ -37,7 +39,9 @@ class SpeakersController < ApplicationController
   end
 
   def destroy
+    id = @speaker.id
     @speaker.destroy
+    Rails.logger.warn("User #{current_member.id} deleted speaker #{id}")
     redirect_to speakers_url, notice: 'Speaker was successfully destroyed.'
   end
 
