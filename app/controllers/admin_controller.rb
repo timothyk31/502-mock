@@ -13,6 +13,7 @@ class AdminController < MemberController
       member = Member.find(id)
       member.update(role: role)
     end
+    Rails.logger.warn("Member #{member.role}'s role updated by #{current_member.id}")
     redirect_to admin_path, notice: 'Roles updated successfully.'
   end
   private

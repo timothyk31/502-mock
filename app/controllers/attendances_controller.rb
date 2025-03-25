@@ -32,6 +32,7 @@ class AttendancesController < MemberController
 
   def update
     if @attendance.update(attendance_params)
+      Rails.logger.warn("User #{current_member.id} updated attendance #{@attendance.id}")
       redirect_to @attendance, notice: 'Attendance was successfully updated.'
     else
       render :edit
@@ -39,7 +40,9 @@ class AttendancesController < MemberController
   end
 
   def destroy
+    id = @attendance.id
     @attendance.destroy
+    Rails.logger.warn("User #{current_member.id} deleted attendance #{id}")
     redirect_to attendances_url, notice: 'Attendance was successfully destroyed.'
   end
 
