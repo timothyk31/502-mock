@@ -76,10 +76,15 @@ class MemberController < ApplicationController
   private
 
   def restrict_non_admins
+    # if ENV['RAILS_ENV'] == 'test'
+    #   current_member ||= Member.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com', role: 5)
+    #   return
+    # end
     redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
   end
 
   def member_params
+    # current_member ||= Member.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com', role: 5) if ENV['RAILS_ENV'] == 'test'
     if current_member.role >= 5
       params.require(:member).permit(:first_name, :last_name, :email, :role)
     else

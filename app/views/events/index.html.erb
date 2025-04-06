@@ -8,6 +8,11 @@
     <% end %>
 </div>
 
+<%= form_with url: events_path, method: :get, local: true do |form| %>
+  <div class="mb-4">
+    <%= form.text_field :query, placeholder: "Search by name or location...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", value: params[:query] %>
+  </div>
+<% end %>
 
   <!-- Grid container for desktop view while using list for mobile devices (responsive design) -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -29,6 +34,7 @@
         <!-- Filter toggle button -->
         <%= form_with url: request.path, method: :get, local: true, class: 'mb-4' do %>
           <%= hidden_field_tag :filter, params[:filter] == 'past' ? 'future' : 'past' %>
+          <%= hidden_field_tag :query, params[:query] %>
           <%= submit_tag params[:filter] == 'past' ? 'Show Future Events' : 'Show Past Events', class: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded' %>
         <% end %>
       </div>
@@ -38,5 +44,9 @@
         <% end %>
       </ul>
     </div>
+  </div>
+
+  <div class="mt-4">
+    <%= paginate @events %>
   </div>
 </div>
