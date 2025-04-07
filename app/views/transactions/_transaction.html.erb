@@ -24,11 +24,10 @@
   <div class="flex mb-4">
     <% if transaction.receipt_url? %>
       <div class="w-1/2">
-      <p class="text-gray-700"><strong>Receipt:</strong></p>
+      <%# <p class="text-gray-700"><strong>Receipt:</strong></p> %>
       <div class="w-full h-auto rounded overflow-hidden">
         <% if transaction.receipt_url.present? && transaction.receipt_url =~ URI::regexp %>
-          <%= image_tag transaction.receipt_url, style: "max-width: 100%; max-height: 100%;" %>
-          <p class="text-gray-700"><strong>Receipt URL:</strong> <%= url_for(transaction.receipt_url) %></p>
+          <p class="text-gray-700"><strong>Receipt URL(Google Drive Link):</strong> <%= link_to transaction.receipt_url, transaction.receipt_url, target: '_blank', rel: 'noopener', class: 'text-blue-500 hover:underline' %></p>
         <% else %>
           <p class="text-red-500"><strong>Invalid Receipt URL</strong></p>
         <% end %>
