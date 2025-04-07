@@ -58,11 +58,13 @@ Rails.application.routes.draw do
           end
      end
 
-get 'documentation', to: 'documentation#index'
+     get 'documentation', to: 'documentation#index'
 
-     resources :transactions
+          resources :transactions
 
-     get 'admin', to: 'admin#index'
+          get 'admin', to: 'admin#index'
 
-     root to: 'member#index'
+          root to: 'member#index'
+
+     get '/download_log', to: 'logs#download'
 end

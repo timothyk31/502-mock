@@ -3,11 +3,15 @@
     <h1>All Events</h1>
     <%= render partial: 'shared/attendance_user_filter' %>
     <%= render partial: 'shared/attendance_chart_events' %>
-    
+    <%= link_to 'Download Log File', download_log_path, class: 'btn btn-primary' %>
+
   </div>
 
   <div class="w-1/2 pl-4">
     <%= render partial: 'shared/attendance_line_chart' %>
     <%= render partial: 'shared/popular_events_chart' %>
+
 </div>
+
+
 </div>
