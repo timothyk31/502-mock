@@ -19,7 +19,7 @@ class Member < ApplicationRecord
   paginates_per 20
 
   # Validations
-  validates :class_year, numericality: { only_integer: true, less_than: 9999 }, allow_nil: true
+  validates :class_year, numericality: { less_than: 9999 }, allow_nil: true
   validates :phone_number, format: { with: /\A\d{10}\z/, message: 'must be a 10-digit number (sorry international students))' }, allow_nil: true
   validates :uin, format: { with: /\A\d{9}\z/, message: 'must be a 9-digit number' }, allow_nil: true
 
