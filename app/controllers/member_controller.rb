@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MemberController < ApplicationController
-  before_action :restrict_non_admins, except: %i[index register]
+  before_action :restrict_non_admins, except: %i[index register update]
 
   def index
     init_member_shared
