@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminController < MemberController
   before_action :authenticate_admin!
 

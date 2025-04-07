@@ -1,4 +1,5 @@
-class LogsController < ApplicationController
+class LogsController < MemberController
+  before_action :restrict_non_admins
     def download
       log_path = Rails.root.join('log', "admin.log")
       lines = tail(log_path, lines: 500)
