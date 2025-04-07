@@ -44,7 +44,6 @@ class Member < ApplicationRecord
     if member.new_record?
       member.class_year ||= 0
       member.role ||= 0
-      member.uin ||= 'default_uin'
     end
 
     member.save!
