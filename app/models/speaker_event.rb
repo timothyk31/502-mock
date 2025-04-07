@@ -5,6 +5,8 @@ class SpeakerEvent < ApplicationRecord
      belongs_to :event
      belongs_to :speaker_events, optional: true
 
+     validates :ytLink, format: { with: /\A(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+\z/, message: 'Invalid YouTube URL' }, allow_blank: true
+
      def convert_link_to_embed
           if ytLink.include?('youtube.com/watch?v=')
                video_id = ytLink.split('v=').last
