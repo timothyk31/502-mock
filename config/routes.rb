@@ -64,7 +64,8 @@ Rails.application.routes.draw do
 
           get 'admin', to: 'admin#index'
 
-          root to: 'member#index'
-
      get '/download_log', to: 'logs#download'
+     get 'register', to: 'member#register'
+
+     root to: 'member#index'
 end

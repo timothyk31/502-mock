@@ -6,6 +6,8 @@ class SpeakersController < ApplicationController
 
   def index
     @speakers = Speaker.all
+    @speakers = @speakers.where('name ILIKE ? OR email ILIKE ?', "%#{params[:query]}%", "%#{params[:query]}%") if params[:query].present?
+    @speakers = @speakers.order(:name).page(params[:page]).per(20)
   end
 
   def show

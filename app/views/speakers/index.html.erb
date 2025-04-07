@@ -5,8 +5,18 @@
     <% end %>
 </div>
 
+<%= form_with url: speakers_path, method: :get, local: true do |form| %>
+  <div class="mb-4">
+    <%= form.text_field :query, placeholder: "Search by name or email...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", value: params[:query] %>
+  </div>
+<% end %>
+
 <ul>
-        <% @speakers.each do |speaker| %>
-                <%= render partial: 'speaker', locals: { speaker: speaker } %>
-        <% end %>
+    <% @speakers.each do |speaker| %>
+        <%= render partial: 'speaker', locals: { speaker: speaker } %>
+    <% end %>
 </ul>
+
+<div class="mt-4">
+  <%= paginate @speakers %>
+</div>
