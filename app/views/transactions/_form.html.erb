@@ -27,6 +27,11 @@
 
   <div class="field">
     <%= form.label :receipt_url, class: "block text-sm font-medium text-gray-700" %>
+    <p class="text-gray-500 text-sm">Please provide a Google Drive link to an image of your receipt.</p>
+    <p class="text-gray-500 text-sm">Ensure the link is accessible to anyone with the link.</p>
+  <p class="text-sm">
+    <%= link_to "How to do this", documentation_path(anchor: "transactions-drive"), class: "text-blue-500 hover:underline" %>
+  </p>
     <%= form.text_area :receipt_url, class: "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
   </div>
 
