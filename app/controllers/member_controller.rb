@@ -20,18 +20,23 @@ class MemberController < ApplicationController
     end
   end
 
+  def register
+    @member = current_member
+  end
+
   def show
     @member = Member.find(params[:id])
   end
 
   def update
     @member = Member.find(params[:id])
+    Rails.logger.error('Called')
     if @member.update(member_params)
       # return back
       redirect_to request.referer, notice: 'Member updated successfully.'
       Rails.logger.warn("Member #{@member.id}'s role updated by #{current_member.id}")
     else
-      redirect_to request.referer, alert: 'Member could not be updated.'
+      redirect_to request.referer, alert: 'Member could not be updated because of the following errors: ' + @member.errors.full_messages.join(', ')
     end
   end
 
@@ -76,19 +81,14 @@ class MemberController < ApplicationController
   private
 
   def restrict_non_admins
-    # if ENV['RAILS_ENV'] == 'test'
-    #   current_member ||= Member.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com', role: 5)
-    #   return
-    # end
     redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
   end
 
   def member_params
-    # current_member ||= Member.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com', role: 5) if ENV['RAILS_ENV'] == 'test'
     if current_member.role >= 5
-      params.require(:member).permit(:first_name, :last_name, :email, :role)
+      params.require(:member).permit(:first_name, :last_name, :email, :role, :uin, :phone_number, :address, :avatar_url, :class_year)
     else
-      params.require(:member).permit(:first_name, :last_name, :email)
+      params.require(:member).permit(:first_name, :last_name, :email, :uin, :phone_number, :address, :avatar_url, :class_year)
     end
   end
 end
