@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_member!
-  before_action :redirect_if_member_info_missing, unless: -> { request.path == register_path || request.path == member_path(current_member.id) }
+  before_action :redirect_if_member_info_missing, unless: -> { request.path == register_path || request.path == new_member_session_path || request.path == destroy_member_session_path || request.path == members_auth_failure_path || (request.path == member_path(current_member.id)) }
 
      private
 
