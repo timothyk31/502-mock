@@ -5,6 +5,8 @@ class EventsController < MemberController
 
   def index
     super.index
+    @events = @events.where('name ILIKE ? OR location ILIKE ?', "%#{params[:query]}%", "%#{params[:query]}%") if params[:query].present?
+    @events = @events.order(:start_time).page(params[:page]).per(20)
   end
 
   def show

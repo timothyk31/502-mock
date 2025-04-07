@@ -66,7 +66,11 @@
             <p class="text-gray-700"><%= speakers_event.speaker.name %></p>
             <% if speakers_event.ytLink.present? %>
               <div class="mt-1">
-                <iframe width="560" height="315" src="<%= speakers_event.convert_link_to_embed %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <% if speakers_event.convert_link_to_embed.present? && speakers_event.convert_link_to_embed =~ URI::regexp %>
+                  <iframe width="560" height="315" src="<%= speakers_event.convert_link_to_embed %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <% else %>
+                  <p class="text-red-500 text-sm">Invalid YouTube link provided.</p>
+                <% end %>
               </div>
             <% end %>
           </li>
