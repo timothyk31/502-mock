@@ -7,6 +7,8 @@ class LogsController < ApplicationController
                 filename: "admin_log.txt",
                 type: 'text/plain',
                 disposition: 'attachment'
+
+        Rails.logger.warn("User #{current_member.id} downloaded the log file")
     end
   
     private
