@@ -36,7 +36,7 @@ class MemberController < ApplicationController
       redirect_to request.referer, notice: 'Member updated successfully.'
       Rails.logger.warn("Member #{@member.id}'s role updated by #{current_member.id}")
     else
-      redirect_to request.referer, alert: 'Member could not be updated because of the following errors: ' + @member.errors.full_messages.join(', ')
+      redirect_to request.referer, alert: "Member could not be updated because of the following errors: #{@member.errors.full_messages.join(', ')}"
     end
   end
 

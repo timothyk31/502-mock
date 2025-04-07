@@ -2,9 +2,8 @@
 
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   rescue_from OAuth2::Error, with: :oauth_failure
-  
+
   def google_oauth2
-    begin
       member = Member.from_google(**from_google_params)
       if member.present?
         sign_out_all_scopes
@@ -16,14 +15,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                                                                reason: "#{auth.info.email} is not authorized."
         redirect_to new_member_session_path
       end
-    rescue => e
+  rescue StandardError => e
       oauth_failure(e)
-    end
   end
 
   def failure
-    flash[:alert] = t('devise.omniauth_callbacks.failure', kind: OmniAuth::Utils.camelize(params[:strategy] || "OAuth"),
-                                                          reason: params[:message] || "authentication_error")
+    flash[:alert] = t('devise.omniauth_callbacks.failure', kind: OmniAuth::Utils.camelize(params[:strategy] || 'OAuth'),
+                                                           reason: params[:message] || 'authentication_error')
     redirect_to new_member_session_path
   end
 
@@ -42,7 +40,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   private
-  
+
   def oauth_failure(exception)
     flash[:alert] = t 'devise.omniauth_callbacks.failure', kind: 'Google',
                                                            reason: exception.message

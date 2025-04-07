@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/controllers/route_coverage_spec.rb
 require 'rails_helper'
 
@@ -76,7 +78,7 @@ RSpec.describe 'Route Coverage', type: :request do
      def build_path(path, requirements)
           # Handle path parameters
           path.gsub(/:\w+/) do |match|
-               param_name = match[1..-1].to_sym
+               param_name = match[1..].to_sym
                param_value = find_parameter_value(path, param_name, requirements)
                param_value.to_s
           end
@@ -97,7 +99,7 @@ RSpec.describe 'Route Coverage', type: :request do
                                       end
      end
 
-     def process_route(verb, path, route)
+     def process_route(verb, path, _route)
           path = path.chomp('.1')
           case verb
           when 'GET'
@@ -113,7 +115,7 @@ RSpec.describe 'Route Coverage', type: :request do
           else
                get path # Default to GET if verb not recognized
           end
-          logger = Logger.new(STDOUT)
+          logger = Logger.new($stdout)
           logger.level = Logger::DEBUG
           logger.info("Testing route: #{verb} #{path}")
 

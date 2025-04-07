@@ -18,8 +18,7 @@ class SpeakersController < ApplicationController
     @speaker = Speaker.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @speaker = Speaker.new(speaker_params)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionPayment < ApplicationRecord
      belongs_to :payment_transaction, class_name: 'Transaction', optional: true
 
