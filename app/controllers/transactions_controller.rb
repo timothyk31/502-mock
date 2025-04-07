@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionsController < ApplicationController
      before_action :authenticate_member!
      # before_action :restrict_non_admins
@@ -7,29 +9,27 @@ class TransactionsController < ApplicationController
           @transactions = Transaction.all
      end
 
-     def show
-     end
+     def show; end
 
      def new
           @transaction = Transaction.new
           @transaction.payment_transaction.build
      end
 
-     def edit
-     end
+     def edit; end
 
      def create
           @transaction = Transaction.new(transaction_params)
           @transaction.request_member = current_member
 
-          puts 'Trying to save transaction...'
+          Rails.logger.debug 'Trying to save transaction...'
           if @transaction.save
-               puts 'Transaction was successfully created.'
+               Rails.logger.debug 'Transaction was successfully created.'
                Rails.logger.warn("User #{current_member.id} created transaction #{@transaction.id}")
                redirect_to @transaction, notice: 'Transaction was successfully created.'
           else
-               puts 'Transaction was not created.'
-               puts @transaction.errors.full_messages
+               Rails.logger.debug 'Transaction was not created.'
+               Rails.logger.debug @transaction.errors.full_messages
                render :new, status: :unprocessable_entity
           end
      end
@@ -61,7 +61,6 @@ class TransactionsController < ApplicationController
           params.require(:transaction).permit(:name, :statement_of_purpose, :approved, :approve_member_id, :response_msg, :pay_type, :receipt_url, payment_transaction_attributes: %i[id category amount _destroy])
      end
 
-     
      # def restrict_non_admins
      #      redirect_to root_path, alert: 'You are not authorized to view this page.' unless current_member.role >= 5
      # end

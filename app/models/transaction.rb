@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Transaction < ApplicationRecord
      belongs_to :request_member, class_name: 'Member'
      belongs_to :approve_member, class_name: 'Member', optional: true
@@ -7,7 +9,6 @@ class Transaction < ApplicationRecord
 
      validates :name, presence: true
      validates :statement_of_purpose, presence: true
-     validates :request_member_id, presence: true
      validates :pay_type, presence: true
 
      enum :pay_type, { cash: 0, credit: 1, debit: 2, paypal: 3 }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminController < MemberController
   before_action :authenticate_admin!
 
@@ -14,11 +16,10 @@ class AdminController < MemberController
     Rails.logger.warn("Member #{member.role}'s role updated by #{current_member.id}")
     redirect_to admin_path, notice: 'Roles updated successfully.'
   end
+
   private
 
   def authenticate_admin!
     redirect_to root_path, alert: 'Access denied.' unless current_member.role >= 5
   end
-
-
 end

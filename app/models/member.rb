@@ -28,7 +28,7 @@ class Member < ApplicationRecord
   end
 
   def self.non_attendees_for(event_id)
-    where.not(id: Attendance.for_event(event_id).pluck(:member_id))
+    where.not(id: Attendance.for_event(event_id).select(:member_id))
   end
 
   def self.from_google(uid:, email:, first_name:, last_name:, avatar_url:)

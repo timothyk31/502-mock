@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
   before_action :restrict_non_admins, except: %i[index show verify]
@@ -62,7 +61,7 @@ class AttendancesController < MemberController
     respond_to do |format|
       format.csv do
         send_data generate_csv(@non_attendees),
-                  filename: "non-attendees-event-#{event.id}-#{Date.today}.csv"
+                  filename: "non-attendees-event-#{event.id}-#{Time.zone.today}.csv"
       end
     end
   end
@@ -74,16 +73,16 @@ class AttendancesController < MemberController
       csv << ['ID', 'First Name', 'Last Name', 'Email', 'UIN', 'Class Year', 'Role', 'Phone Number', 'Address', 'Joined At']
       members.each do |member|
         csv << [
-          member.id,
-          member.first_name,
-          member.last_name,
-          member.email,
-          member.uin,
-          member.class_year,
-          member.role,
-          member.phone_number,
-          member.address,
-          member.created_at
+             member.id,
+             member.first_name,
+             member.last_name,
+             member.email,
+             member.uin,
+             member.class_year,
+             member.role,
+             member.phone_number,
+             member.address,
+             member.created_at
         ]
       end
     end
