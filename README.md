@@ -26,13 +26,13 @@ This code has been run and tested with the following components:
 
 ### Program
 - Ruby 3.4.1
-- Rails (version)
-- PostgreSQL (version)
-- RSpec (version)
+- Rails 7.0.8
+- PostgreSQL (latest)
+- RSpec 5.0
 
 ### Tools
 - GitHub
-- RuboCop (version)
+- RuboCop 1.17.2
 - Heroku CLI
 - Docker Desktop
 
@@ -46,7 +46,7 @@ docker run -it --volume "${PWD}:/directory" -e DATABASE_USER=admin -e DATABASE_P
 
 ### Manual Installation
 ```bash
-git clone [repository-url]
+git clone (https://github.com/lingfeishengtian/502-mock.git)
 cd clear-app
 bundle install
 yarn install
