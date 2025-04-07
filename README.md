@@ -46,7 +46,7 @@ docker run -it --volume "${PWD}:/directory" -e DATABASE_USER=admin -e DATABASE_P
 
 ### Manual Installation
 ```bash
-git clone (https://github.com/lingfeishengtian/502-mock.git)
+git clone https://github.com/lingfeishengtian/502-mock.git
 cd clear-app
 bundle install
 yarn install
