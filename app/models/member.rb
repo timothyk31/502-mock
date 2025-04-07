@@ -18,6 +18,11 @@ class Member < ApplicationRecord
 
   paginates_per 20
 
+  # Validations
+  validates :class_year, numericality: { only_integer: true, less_than: 9999 }, allow_nil: true
+  validates :phone_number, format: { with: /\A\d{10}\z/, message: 'must be a 10-digit number (sorry international students))' }, allow_nil: true
+  validates :uin, format: { with: /\A\d{9}\z/, message: 'must be a 9-digit number' }, allow_nil: true
+
   def admin?
     role >= 5
   end
@@ -28,20 +33,20 @@ class Member < ApplicationRecord
 
   def self.from_google(uid:, email:, first_name:, last_name:, avatar_url:)
     member = find_or_initialize_by(email: email)
-    
+
     # Update attributes
     member.uid = uid
     member.first_name = first_name
     member.last_name = last_name
     member.avatar_url = avatar_url
-    
+
     # Set default values for required fields if this is a new record
     if member.new_record?
       member.class_year ||= 0
       member.role ||= 0
-      member.uin ||= "default_uin"
+      member.uin ||= 'default_uin'
     end
-    
+
     member.save!
     member
   end

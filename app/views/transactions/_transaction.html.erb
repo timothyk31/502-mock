@@ -39,28 +39,28 @@
     <% if transaction.payment_transaction.any? %>
       <div class="w-1/2">
         <p class="text-gray-700"><strong>Payments:</strong></p>
-          <% transaction.payment_transaction.each do |payment| %>
-              <table class="min-w-full bg-white ">
-                <thead>
-                  <tr>
-                    <th class="py-2">Category</th>
-                    <th class="py-2">Amount</th>
-                    <th class="py-2">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="border px-4 py-2"><%= payment.category %></td>
-                    <td class="border px-4 py-2"><%= number_to_currency(payment.amount) %></td>
-                    <td class="border px-4 py-2"><%= payment.created_at.strftime("%B %d, %Y") %></td>
-                  </tr>
-                </tbody>
-              </table>
-          <% end %>
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="py-2">Category</th>
+              <th class="py-2">Amount</th>
+              <th class="py-2">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% transaction.payment_transaction.each do |payment| %>
+              <tr>
+                <td class="border px-4 py-2"><%= payment.category.capitalize %></td>
+                <td class="border px-4 py-2"><%= number_to_currency(payment.amount) %></td>
+                <td class="border px-4 py-2"><%= payment.created_at.strftime("%B %d, %Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
     <% end %>
   </div>
-
+  
   <div class="flex justify-end space-x-2">
     <%= link_to 'Edit', edit_transaction_path(transaction), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
     <%= button_to 'Delete', transaction_path(transaction), method: :delete, form:{ data: { turbo_confirm: 'Are you sure?' }} , class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>
