@@ -1,50 +1,114 @@
 # Clear App
 
-<insert description of the app here>
+## Project Description
+A modern web application built with Ruby on Rails and PostgreSQL. The app provides an easy way to manage members, events, and transcations. It includes features like user authentication, event management, and transaction tracking within the originating organization.
+The app is designed to be user-friendly and efficient, making it suitable for both small and large organizations.
 
-# Ruby Version
+## Table of Contents
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Database Setup](#database-setup)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Contact](#contact)
 
-We use Ruby 3.4.1 for this project. To simplify development, we use a docker container with many dependencies pre-installed.
+## Requirements
+This code has been run and tested with the following components:
 
-View lingfeishengtian/rails-postgres:latest on Docker Hub.
+### Environment
+- Docker Engine (latest)
+- Heroku (latest)
+- Node.js (v16+ recommended)
+- Yarn (latest)
 
-# System Dependencies
+### Program
+- Ruby 3.4.1
+- Rails (version)
+- PostgreSQL (version)
+- RSpec (version)
 
-- Heroku
-- PostgreSQL
+### Tools
+- GitHub
+- RuboCop (version)
+- Heroku CLI
+- Docker Desktop
 
-# Configuration
+## Installation
 
-- Create a `.env` file in the root directory of the project and add the following environment variables:
-  - `GOOGLE_OAUTH_CLIENT_ID`
-  - `GOOGLE_OAUTH_CLIENT_SECRET`
-  - `GOOGLE_OAUTH_REDIRECT_URI`
-  - `DEV_EMAIL`: Configure this email to the developer's email which allows them some overrides just in case of emergencies.
+### Using Docker (Recommended)
+```bash
+cd clear-app
+docker run -it --volume "${PWD}:/directory" -e DATABASE_USER=admin -e DATABASE_PASSWORD={pswd} -p 3000:3000 lingfeishengtian/rails-postgres:latest
+```
 
-# Database Creation
+### Manual Installation
+```bash
+git clone [repository-url]
+cd clear-app
+bundle install
+yarn install
+```
 
-- Run `rails db:create` to create the database.
-- Run `rails db:migrate` to apply migrations.
-- Run `rails db:seed` to seed the database with initial data.
+## Configuration
+Create a `.env` file in the root directory with the following variables:
+```
+GOOGLE_OAUTH_CLIENT_ID=your_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
+GOOGLE_OAUTH_REDIRECT_URI=your_redirect_uri
+DEV_EMAIL=your@email.com
+```
 
-# Database Initialization
+## Database Setup
+Run the following commands to set up the database:
+```bash
+rails db:create
+rails db:migrate
+rails db:seed
+```
+Or for a complete setup:
+```bash
+rails db:setup
+```
 
-- Ensure the `.env` file is properly configured with the required environment variables.
-- Use `rails db:setup` to create, migrate, and seed the database in one step.
+## Testing
+Run the test suite with:
+```bash
+rspec
+```
 
-# How to Run the Test Suite
+## Deployment
+The app is deployed on Heroku. To deploy:
 
-- Run `rspec` to execute the test suite.
-- Ensure all tests pass before deploying changes.
+1. Ensure all changes are committed.
+2. Push to Heroku:
+    ```bash
+    git push heroku main
+    ```
+3. Run migrations if needed:
+    ```bash
+    heroku run rails db:migrate
+    ```
 
-# Deployment Instructions
+## Dependencies
 
-- The app is deployed on Heroku. Use the Heroku CLI to manage deployments.
-- Run `git push heroku main` to deploy the latest changes.
-- Ensure all environment variables are configured in the Heroku dashboard.
+### External Dependencies
+- Docker
+- Heroku CLI
+- Git
 
-# Additional Notes
+### Third-Party Libraries
+- **rails_icons**: MIT License  
+- **kaminari**: MIT License  
+- **mini_magick**: MIT License  
+- **cocoon**: MIT License  
 
-- The app uses Docker for development. Run `docker-compose up` to start the development environment.
-- For production, ensure all dependencies are installed and configured properly.
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
+## Contact
+For questions or support, please contact:
+- Hunter Han
+- [Project GitHub Issues](#)
