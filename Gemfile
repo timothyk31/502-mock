@@ -73,10 +73,13 @@ group :development do
   # gem "spring"
   gem 'brakeman', require: false
   gem 'dotenv-rails'
-  gem 'faker', require: false
+  gem 'faker'
   gem 'rspec-rails', '~> 5.0'
   gem 'rubocop-rails'
   gem 'rubocop', require: false
+  gem 'rails-controller-testing'
+
+  gem 'factory_bot_rails'
 end
 
 group :test do
@@ -85,7 +88,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false
-
 end
 
 gem 'tailwindcss-rails', '~> 4.0'
