@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 class AttendancesController < MemberController
   before_action :set_attendance, only: %i[show edit update destroy]
   before_action :restrict_non_admins, except: %i[index show verify]
@@ -74,16 +73,16 @@ class AttendancesController < MemberController
       csv << ['ID', 'First Name', 'Last Name', 'Email', 'UIN', 'Class Year', 'Role', 'Phone Number', 'Address', 'Joined At']
       members.each do |member|
         csv << [
-          member.id,
-          member.first_name,
-          member.last_name,
-          member.email,
-          member.uin,
-          member.class_year,
-          member.role,
-          member.phone_number,
-          member.address,
-          member.created_at
+             member.id,
+             member.first_name,
+             member.last_name,
+             member.email,
+             member.uin,
+             member.class_year,
+             member.role,
+             member.phone_number,
+             member.address,
+             member.created_at
         ]
       end
     end
@@ -114,7 +113,7 @@ class AttendancesController < MemberController
   end
 
   def attendance_params
-    params.require(:attendance).permit(:member_id, :event_id, :status)
+    params.require(:attendance).permit(:member_id, :event_id)
   end
 
   def restrict_non_admins
